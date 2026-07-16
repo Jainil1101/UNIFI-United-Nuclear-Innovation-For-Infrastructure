@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energi Bersih — Facts about Nuclear Power for Indonesia</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef4f8; --panel:#ffffff; --panel2:#e9f2f8; --line:#d5e3ed;
+    --txt:#152a3d; --muted:#5b7288; --accent:#0e7490; --accent2:#0369a1;
+    --warn:#b45309; --good:#15803d; --bad:#b91c1c; --batik:#b98226;
+    --atom:#16b1c9; --ink:#0b2233;
+    --sea1:#bfe0f0; --sea2:#7fbedd;
+    --header-bg:rgba(255,255,255,.92); --footer-bg:#ffffff;
+    --chart-ink:#5b7288;
+    --font-head:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+    --font-body:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+    --radius:14px;
+  }
+  body.dark{
+    --bg:#0a141d; --panel:#17303e; --panel2:#1e3a49; --line:#325166;
+    --txt:#eaf3f9; --muted:#a7c1cf; --accent:#2ccbe4; --accent2:#54cdf2;
+    --good:#46d089; --bad:#f2837a; --warn:#e6ac5e;
+    --header-bg:rgba(10,20,29,.9); --footer-bg:#0d1a24;
+    --chart-ink:#a7c1cf;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:var(--font-body);line-height:1.55;overflow-x:hidden;
+    transition:background .3s ease,color .3s ease}
+  section,.hero,footer,.scrolly{transition:background .3s ease}
+  h1,h2,h3,.logo,.big{font-family:var(--font-head)}
+
+  /* ---------- header ---------- */
+  header{position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);padding:.5rem 1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+    box-shadow:0 2px 14px rgba(11,34,51,.06);transition:background .3s ease,border-color .3s ease}
+  header .brand{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;cursor:pointer;
+    border:none;background:none;padding:0}
+  header .logo{font-weight:700;font-size:1.5rem;letter-spacing:4px;line-height:1;color:var(--txt);
+    background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .atom-mark{width:32px;height:32px;flex-shrink:0;display:block}
+  .orb{transform-box:view-box;transform-origin:center}
+  .orb.s1{animation:spin 9s linear infinite}
+  .orb.s2{animation:spin 12s linear infinite reverse}
+  .orb.s3{animation:spin 15s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .head-actions{display:flex;align-items:center;gap:.5rem;margin-left:auto}
+  .icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);
+    color:var(--txt);cursor:pointer;font-size:1rem;line-height:1;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease,background .3s ease}
+  .icon-btn:hover{transform:scale(1.1)}
+  .lang-select{position:relative;display:inline-flex;align-items:center;background:var(--panel2);
+    border:1px solid var(--line);border-radius:20px;padding:0 .55rem 0 .6rem;height:34px;transition:.2s}
+  .lang-select:hover{border-color:var(--accent)}
+  .lang-select .lang-globe{font-size:.9rem;line-height:1;pointer-events:none}
+  .lang-select select{appearance:none;-webkit-appearance:none;background:transparent;border:none;outline:none;
+    color:var(--txt);font-family:var(--font-body);font-size:.82rem;font-weight:600;cursor:pointer;
+    padding:0 1.1rem 0 .4rem;height:100%}
+  .lang-select select option{color:#111;background:#fff}
+  body.dark .lang-select select option{color:var(--txt);background:var(--panel)}
+  .lang-select .lang-caret{position:absolute;right:.5rem;pointer-events:none;font-size:.7rem;color:var(--muted)}
+  .lang-btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:20px;
+    padding:.25rem .8rem;cursor:pointer;font-size:.8rem;font-weight:600}
+  .lang-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+  .sim-banner{background:#fff7e6;border-bottom:1px solid #f0dcb0;text-align:center;font-size:.78rem;
+    padding:.4rem .8rem;color:#8a5a13}
+
+  /* ---------- layout ---------- */
+  section{max-width:1200px;margin:0 auto;padding:2.4rem 1rem}
+  h2{font-size:1.5rem;margin-bottom:.3rem}
+  h2 .batik-dot{color:var(--accent)}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:1.3rem}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;text-align:center;padding:4.4rem 1rem 5rem;overflow:hidden;
+    background:linear-gradient(180deg,#0b283a 0%,#0d2c3f 34%,#0b2131 64%,var(--bg) 100%)}
+  .hero *{position:relative;z-index:2}
+  .hero::before{content:"";position:absolute;inset:-25%;z-index:1;opacity:.4;
+    background-image:radial-gradient(circle at 22% 28%,rgba(22,177,201,.22),transparent 45%),
+      radial-gradient(circle at 78% 24%,rgba(3,105,161,.24),transparent 46%);
+    animation:auroraDrift 20s ease-in-out infinite alternate}
+  @keyframes auroraDrift{0%{transform:translate3d(-2%,-1%,0) scale(1)}100%{transform:translate3d(3%,2%,0) scale(1.08)}}
+  /* seamless fade from hero into the page (no hard partition) */
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:200px;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,transparent,var(--bg))}
+  .hero-brand{display:flex;align-items:center;justify-content:center;gap:.85rem;margin:0 auto 1.1rem;
+    will-change:transform,opacity}
+  .hero-brand .hero-atom,.hero-brand .hero-name{animation:floaty 6s ease-in-out infinite}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .hero-name{font-family:var(--font-head);font-weight:700;font-size:clamp(2.2rem,7vw,3.4rem);letter-spacing:7px;
+    background:linear-gradient(90deg,#8fe3f0,#eafcff 50%,#7fd9e8);-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;text-shadow:0 0 26px rgba(34,195,220,.25)}
+  .hero-atom{width:72px;height:72px}
+  .hero-atom .orb.s1{animation:spin 11s linear infinite}
+  .hero-atom .orb.s2{animation:spin 15s linear infinite reverse}
+  .hero-atom .orb.s3{animation:spin 19s linear infinite}
+  .hero-atom .nuc{animation:pulseGlow 2.6s ease-in-out infinite}
+  @keyframes pulseGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(22,177,201,.7))}50%{filter:drop-shadow(0 0 10px rgba(22,177,201,1))}}
+  .hero-badge{display:inline-block;font-family:var(--font-body);font-size:.64rem;font-weight:800;letter-spacing:1.6px;
+    text-transform:uppercase;color:#bff0f8;border:1px solid rgba(191,240,248,.4);border-radius:20px;padding:.28rem .8rem;margin-bottom:.9rem}
+  .hero h1{font-size:clamp(1.7rem,4.6vw,2.8rem);line-height:1.22;max-width:840px;margin:0 auto;color:#fff;letter-spacing:-.5px}
+  .hero h1 em{color:var(--atom);font-style:normal}
+  .hero p{color:#d3e6f0;max-width:660px;margin:.9rem auto 0}
+  .hero p a{color:#8fe3f0;text-decoration:none;font-weight:600}
+  .hero p a:hover{color:#eafcff}
+  .hero-tagline{font-family:var(--font-body);font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;
+    font-weight:600;color:#9fd4e4;margin:.1rem auto 0}
+  .hero-mission{max-width:640px;margin:1.2rem auto 0;font-size:.9rem;color:#c3dae6;line-height:1.6}
+  .hero-mission b{color:var(--atom);font-weight:700}
+
+  /* ---------- scroll-reveal (subtle) ---------- */
+  .sr{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+  .sr.shown{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.sr{opacity:1;transform:none;transition:none}
+    .hero-brand,.hero-atom .nuc,.hero::before,.reactor-pulse .ring{animation:none}}
+
+  /* ---------- mid-page SMR energy pulse ---------- */
+  .energy-band{position:relative;max-width:1100px;margin:0 auto;padding:2.6rem 1rem;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;gap:1.8rem;flex-wrap:wrap;text-align:left}
+  .reactor-pulse{position:relative;width:130px;height:130px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .reactor-pulse .ring{position:absolute;width:58px;height:58px;border:2px solid var(--accent);border-radius:50%;
+    opacity:0;animation:pulseRing 3.3s cubic-bezier(.3,.4,.5,1) infinite}
+  .reactor-pulse .ring:nth-child(2){animation-delay:1.1s}
+  .reactor-pulse .ring:nth-child(3){animation-delay:2.2s}
+  @keyframes pulseRing{0%{transform:scale(.5);opacity:0}14%{opacity:.5}100%{transform:scale(2.6);opacity:0}}
+  .pulse-atom{width:70px;height:70px;position:relative;z-index:1;filter:drop-shadow(0 0 9px rgba(34,195,220,.55))}
+  .eb-text{max-width:380px}
+  .eb-title{font-family:var(--font-head);font-weight:700;font-size:1.35rem;letter-spacing:1px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .eb-sub{color:var(--muted);font-size:.9rem;margin-top:.35rem;line-height:1.5}
+  @media(max-width:560px){.energy-band{text-align:center;gap:.6rem}}
+
+  /* ---------- badges ---------- */
+  .badge{font-size:.6rem;font-weight:800;letter-spacing:.8px;padding:.14rem .5rem;border-radius:9px;
+    text-transform:uppercase;flex-shrink:0}
+  .badge.sim{background:#fff3d6;color:#8a5a13;border:1px solid #ecd39a}
+  .badge.live{background:#e3f6e9;color:var(--good);border:1px solid #b6e2c4}
+  .badge.live::before{content:"●";margin-right:.25rem;animation:blink 1.8s infinite}
+  @keyframes blink{50%{opacity:.35}}
+
+  /* ---------- cards ---------- */
+  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem;
+    box-shadow:0 1px 4px rgba(23,50,72,.05)}
+  .card h3{font-size:.76rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);
+    margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+  .big{font-size:2.15rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .big small{font-size:.95rem;color:var(--muted);font-weight:400;-webkit-text-fill-color:var(--muted)}
+  .delta{font-size:.8rem;color:var(--muted)}
+
+  /* ---------- dashboard flair ---------- */
+  #dash{position:relative}
+  #dash::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(560px 280px at 16% 14%,rgba(34,195,220,.12),transparent 62%),
+      radial-gradient(520px 300px at 88% 88%,rgba(3,105,161,.13),transparent 62%);
+    animation:dashDrift 18s ease-in-out infinite alternate}
+  @keyframes dashDrift{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(2%,-2.5%,0) scale(1.07)}}
+  #dash > *{position:relative;z-index:1}
+  #dash .grid .card{position:relative;overflow:hidden;opacity:0;transform:translateY(16px);
+    border-top:3px solid transparent;
+    background-image:linear-gradient(var(--panel),var(--panel)),linear-gradient(90deg,var(--accent),var(--accent2));
+    background-origin:border-box;background-clip:padding-box,border-box;
+    box-shadow:0 2px 12px rgba(2,16,26,.28);
+    transition:transform .28s ease,box-shadow .28s ease,filter .28s ease}
+  #dash .grid.reveal .card{animation:cardIn .55s cubic-bezier(.2,.7,.2,1) forwards}
+  #dash .grid .card:nth-child(1){animation-delay:.00s}
+  #dash .grid .card:nth-child(2){animation-delay:.07s}
+  #dash .grid .card:nth-child(3){animation-delay:.14s}
+  #dash .grid .card:nth-child(4){animation-delay:.21s}
+  #dash .grid .card:nth-child(5){animation-delay:.28s}
+  #dash .grid .card:nth-child(6){animation-delay:.35s}
+  #dash .grid .card:hover{transform:translateY(-6px);filter:brightness(1.16) saturate(1.25);
+    box-shadow:0 16px 36px rgba(2,16,26,.5),0 0 0 1px var(--accent),0 0 26px -8px var(--accent)}
+  #dash .grid .card::after{content:attr(data-ico);position:absolute;right:.7rem;top:.55rem;
+    font-size:2.3rem;opacity:.16;line-height:1;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+  #dash .grid .card:hover::after{opacity:.42;transform:scale(1.12) rotate(-3deg)}
+  #dash .grid .card h3{padding-right:2.6rem}
+  #dash .grid .card .ico-svg{position:absolute;right:.65rem;top:.5rem;width:2.4rem;height:2.4rem;
+    color:var(--accent);opacity:.3;pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+  #dash .grid .card:hover .ico-svg{opacity:.7;transform:scale(1.12) rotate(-3deg)}
+  #dash .grid .card.wide{grid-column:span 2}
+  @media(max-width:560px){#dash .grid .card.wide{grid-column:auto}}
+  @keyframes cardIn{to{opacity:1;transform:none}}
+  .mini-bar{height:7px;border-radius:5px;background:var(--panel2);overflow:hidden;margin:.55rem 0 .35rem}
+  .mini-bar i{display:block;height:100%;width:0;border-radius:5px;
+    background:linear-gradient(90deg,var(--good),var(--accent));transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+  .counting{animation:countPulse 1.1s ease}
+  @keyframes countPulse{0%{filter:brightness(1)}40%{filter:brightness(1.25)}100%{filter:brightness(1)}}
+
+  .method-note{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:.8rem 1rem;font-size:.8rem;color:var(--muted);margin-top:1rem}
+  .method-note b{color:var(--txt)}
+  .src-line{margin-top:.8rem;font-size:.75rem;color:var(--muted);line-height:1.65;
+    background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:.6rem .85rem}
+  .src-line a{color:var(--accent2);text-decoration:none;font-weight:600}
+  .src-line a:hover{text-decoration:underline}
+  .src-line b{color:var(--txt)}
+
+  /* source popover */
+  .src{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;
+    background:var(--panel2);border:1px solid var(--line);color:var(--accent2);font-size:.65rem;cursor:pointer;
+    font-style:normal;flex-shrink:0}
+  .src-pop{position:fixed;z-index:200;max-width:290px;background:var(--panel);color:var(--txt);
+    border:1px solid var(--accent2);border-radius:10px;padding:.7rem .8rem;font-size:.78rem;display:none;
+    box-shadow:0 10px 30px rgba(2,16,26,.45)}
+  .src-pop a{color:var(--accent2);word-break:break-all;font-weight:600}
+  .src-pop b{display:block;margin-bottom:.25rem;color:var(--txt)}
+
+  canvas{max-height:320px}
+  .chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem;
+    box-shadow:0 1px 4px rgba(23,50,72,.05);position:relative;overflow:hidden;
+    opacity:0;transform:translateY(18px);transition:box-shadow .25s ease,transform .25s ease}
+  #compare .grid.reveal .chart-card{animation:cardIn .6s cubic-bezier(.2,.7,.2,1) forwards}
+  #compare .grid.reveal .chart-card:nth-child(2){animation-delay:.12s}
+  #compare .grid.reveal .chart-card:nth-child(3){animation-delay:.24s}
+  .chart-card:hover{box-shadow:0 12px 26px rgba(23,50,72,.13)}
+  .chart-card h3{display:flex;align-items:center;gap:.4rem}
+  .chart-head-ico{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;
+    background:var(--panel2);font-size:.8rem;flex-shrink:0}
+  .chart-win{position:absolute;top:.9rem;right:.9rem;font-size:.6rem;font-weight:800;letter-spacing:.6px;
+    text-transform:uppercase;color:#fff;background:linear-gradient(90deg,var(--good),var(--accent));
+    padding:.16rem .5rem;border-radius:20px}
+  .takeaway{margin-top:1.1rem;display:flex;gap:.9rem;align-items:flex-start;
+    background:linear-gradient(100deg,#0b2233,#134058);color:#eaf6fb;border-radius:var(--radius);padding:1.1rem 1.2rem}
+  .takeaway .tk-ico{font-size:1.6rem;line-height:1}
+  .takeaway b{color:#8fe3f0}
+  /* embedded UNIFI Stats model frame */
+  .unifi-wrap{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);
+    background:#020617;box-shadow:0 12px 34px rgba(2,16,26,.45);min-height:420px}
+  .unifi-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.5rem;
+    color:#8aa6b8;font-size:.95rem;font-weight:600}
+  .unifi-spin{display:inline-block;font-size:1.3rem;animation:spin 3s linear infinite}
+  /* scoped Tailwind base (preflight is disabled globally to protect the host site).
+     Zero specificity via :where() so Tailwind utilities always win. */
+  :where(.unifi-wrap *,.unifi-wrap ::before,.unifi-wrap ::after){box-sizing:border-box;border-width:0;border-style:solid;border-color:#475569}
+  :where(.unifi-wrap h1,.unifi-wrap h2,.unifi-wrap h3,.unifi-wrap h4,.unifi-wrap h5,.unifi-wrap h6,.unifi-wrap p,.unifi-wrap figure,.unifi-wrap blockquote){margin:0}
+  :where(.unifi-wrap ul,.unifi-wrap ol){list-style:none;margin:0;padding:0}
+  :where(.unifi-wrap button,.unifi-wrap select){background-color:transparent;background-image:none;cursor:pointer;font:inherit;color:inherit;padding:0;border-radius:0}
+  :where(.unifi-wrap a){color:inherit;text-decoration:inherit}
+  :where(.unifi-wrap svg){display:block;vertical-align:middle}
+  :where(.unifi-wrap img){display:block;max-width:100%;height:auto}
+  :where(.unifi-wrap table){border-collapse:collapse}
+  :where(.unifi-wrap input,.unifi-wrap textarea){font:inherit;color:inherit}
+  /* recharts pie percentage labels (fill was removed from the Pie style so slices keep their colours) */
+  .unifi-wrap .recharts-pie-label-text{fill:#cbd5e1}
+
+  /* ---------- radiation bar ---------- */
+  .gauge-wrap{display:flex;gap:1rem;flex-wrap:wrap;align-items:stretch}
+  .gauge-wrap .card{flex:1;min-width:260px;transition:transform .28s ease,box-shadow .28s ease,filter .28s ease}
+  .gauge-wrap .card:hover{transform:translateY(-4px);filter:brightness(1.12) saturate(1.15);
+    box-shadow:0 14px 30px rgba(2,16,26,.45),0 0 0 1px var(--accent)}
+  .rad-bar{position:relative;height:28px;border-radius:14px;margin:1.1rem 0 .5rem;
+    background:linear-gradient(90deg,#bfe3cd,#8fd0a8 55%,#f0d492 80%,#e8a0a0);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  .rad-bar::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.55) 50%,transparent 58%);
+    background-size:260% 100%;animation:radSheen 3.8s ease-in-out infinite}
+  @keyframes radSheen{0%{background-position:210% 0}100%{background-position:-110% 0}}
+  .rad-zone{position:absolute;top:0;bottom:0;left:10%;width:50%;border-radius:7px;pointer-events:none;
+    box-shadow:inset 0 0 0 2px rgba(21,42,61,.30)}
+  .rad-marker{position:absolute;top:-9px;width:4px;height:46px;background:var(--txt);border-radius:3px;
+    transition:left 2s;z-index:2;animation:radMark 2s ease-in-out infinite}
+  .rad-marker::before{content:"";position:absolute;left:50%;top:-5px;transform:translateX(-50%);
+    width:11px;height:11px;border-radius:50%;background:var(--txt)}
+  @keyframes radMark{0%,100%{box-shadow:0 0 6px 1px rgba(255,255,255,.5)}50%{box-shadow:0 0 16px 4px rgba(255,255,255,.95)}}
+  .rad-scale{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted)}
+  /* dose ladder */
+  .dose-list{display:flex;flex-direction:column;gap:.5rem;margin:.5rem 0 .3rem}
+  .dose-row{display:flex;align-items:center;gap:.55rem;font-size:.8rem}
+  .dose-row .d-ico{width:1.3rem;text-align:center;flex-shrink:0;font-size:1rem}
+  .dose-row .d-lbl{width:8.6rem;flex-shrink:0;color:var(--txt);line-height:1.2}
+  .dose-row .d-bar{flex:1;height:9px;border-radius:5px;background:var(--panel2);overflow:hidden}
+  .dose-row .d-bar i{display:block;height:100%;width:0;border-radius:5px;background:var(--c,var(--accent));
+    transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+  .gauge-wrap.shown .dose-row .d-bar i{width:var(--w)}
+  .dose-row .d-val{width:3.1rem;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;
+    font-weight:700;color:var(--muted);font-size:.76rem}
+  /* column header */
+  .dose-head{display:flex;align-items:baseline;gap:.55rem;font-size:.62rem;font-weight:800;letter-spacing:.7px;
+    text-transform:uppercase;color:var(--muted);padding:0 .5rem .1rem}
+  .dose-head .dh-src{flex:1}
+  .dose-head .dh-dose{color:var(--accent)}
+  /* rotating spotlight — each item becomes the hero in turn (no horizontal scaling → never overflows) */
+  .dose-row{position:relative;padding:.34rem .5rem .34rem .62rem;margin:0 -.5rem;border-radius:9px;opacity:.55;
+    cursor:pointer;transition:background .5s ease,opacity .5s ease}
+  .dose-row:hover{opacity:.9}
+  .dose-row.active:hover{opacity:1}
+  .dose-row .d-ico{transition:transform .5s cubic-bezier(.34,1.3,.4,1)}
+  .dose-row .d-val{transition:color .45s ease}
+  .dose-row .d-bar i{transition:width 1.1s cubic-bezier(.2,.7,.2,1),filter .5s ease,box-shadow .5s ease}
+  .dose-row.active{opacity:1;background:linear-gradient(90deg,rgba(44,203,228,.18),rgba(44,203,228,.02))}
+  .dose-row.active::before{content:"";position:absolute;left:.05rem;top:.35rem;bottom:.35rem;width:3px;
+    border-radius:3px;background:var(--accent)}
+  .dose-row.active .d-lbl{font-weight:700;color:var(--txt)}
+  .dose-row.active .d-ico{transform:scale(1.3)}
+  .dose-row.active .d-val{color:var(--accent);font-weight:800}
+  .dose-row.active .d-bar i{filter:brightness(1.25) saturate(1.35);box-shadow:0 0 12px -2px var(--c,var(--accent))}
+  /* focus panel — shows the real comparison for the highlighted item */
+  .dose-focus{display:flex;align-items:center;gap:.6rem;margin-top:.8rem;padding:.65rem .8rem;border-radius:10px;
+    background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);min-height:3rem}
+  .dose-focus .df-ico{font-size:1.4rem;flex-shrink:0;line-height:1}
+  .dose-focus .df-txt{font-size:.86rem;font-weight:600;color:var(--txt);line-height:1.4}
+  .dose-focus .df-txt b{color:var(--accent)}
+  .dose-focus.flash .df-ico,.dose-focus.flash .df-txt{animation:focusFlash .5s ease}
+  @keyframes focusFlash{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+
+  /* ---------- swipe deck (Tinder-style) ---------- */
+  .deck-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}
+  .deck-row{display:flex;align-items:center;justify-content:center;gap:1.2rem}
+  .deck{position:relative;width:min(78vw,360px);height:400px;margin:0;user-select:none;flex-shrink:0}
+  .swipe-card{position:absolute;inset:0;background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;box-shadow:0 8px 28px rgba(23,50,72,.14);padding:1.4rem 1.3rem;
+    display:flex;flex-direction:column;cursor:grab;touch-action:pan-y;
+    transition:transform .35s ease,opacity .35s ease}
+  .swipe-card.dragging{transition:none;cursor:grabbing}
+  .swipe-card .q-tag{font-size:.66rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem}
+  .swipe-card .statement{font-size:1.18rem;font-weight:700;line-height:1.4;color:var(--txt)}
+  .swipe-card .swipe-hint{margin-top:auto;display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);font-weight:600}
+  .swipe-card .swipe-hint .no{color:var(--bad)}
+  .swipe-card .swipe-hint .yes{color:var(--good)}
+  .stamp{position:absolute;top:20px;padding:.2rem .7rem;border-radius:8px;font-weight:900;font-size:1.1rem;
+    letter-spacing:1px;text-transform:uppercase;opacity:0;transition:opacity .1s;border:3px solid}
+  .stamp.true{right:18px;color:var(--good);border-color:var(--good);transform:rotate(12deg)}
+  .stamp.false{left:18px;color:var(--bad);border-color:var(--bad);transform:rotate(-12deg)}
+  .swipe-card.reveal{cursor:default;background:var(--panel)}
+  .swipe-card.reveal.correct{border-color:var(--good);background:#f2fbf5}
+  .swipe-card.reveal.wrong{border-color:var(--bad);background:#fdf4f3}
+  body.dark .swipe-card.reveal.correct{background:#123528;border-color:#2f7a53}
+  body.dark .swipe-card.reveal.wrong{background:#3a1f1c;border-color:#8a463d}
+  .verdict{font-size:.9rem;font-weight:800;letter-spacing:.5px;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+  .verdict .true{color:var(--good)}.verdict .false{color:var(--bad)}
+  .reveal .fact{font-size:.9rem;color:var(--txt);line-height:1.5;overflow-y:auto}
+  .reveal .cite{margin-top:.7rem;font-size:.72rem;color:var(--accent2);border-top:1px dashed var(--line);padding-top:.5rem}
+  .reveal .cite a{color:var(--accent2)}
+  .reveal .next-btn{margin-top:.8rem;align-self:flex-start;background:var(--accent);color:#fff;border:none;
+    border-radius:10px;padding:.5rem 1.1rem;font-weight:700;font-size:.82rem;cursor:pointer}
+  .deck-btn{width:62px;height:62px;border-radius:50%;border:2px solid var(--line);background:var(--panel);
+    font-size:1.7rem;cursor:pointer;box-shadow:0 6px 16px rgba(23,50,72,.14);
+    transition:transform .12s ease,box-shadow .12s ease,background-color .12s ease,color .12s ease,border-color .12s ease;
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1}
+  .deck-btn:hover{transform:scale(1.12);box-shadow:0 10px 22px rgba(23,50,72,.2)}
+  .deck-btn:active{transform:scale(.95)}
+  .deck-btn.btn-false{color:var(--bad);border-color:#e9b7b1}
+  .deck-btn.btn-true{color:var(--good);border-color:#a9d9be}
+  @media(max-width:560px){
+    .deck-row{gap:.5rem}
+    .deck{width:min(66vw,320px)}
+    .deck-btn{width:48px;height:48px;font-size:1.3rem}
+  }
+  .deck-score{font-size:.85rem;color:var(--muted);font-weight:600;min-width:150px;text-align:center}
+  .deck-score b{color:var(--accent2)}
+  .deck-done{text-align:center;padding:2rem 1rem}
+  .deck-done .big-score{font-size:2.4rem;font-weight:800;color:var(--accent2)}
+  .deck-done button{margin-top:1rem;background:var(--accent);color:#fff;border:none;border-radius:12px;
+    padding:.6rem 1.4rem;font-weight:700;cursor:pointer}
+
+  /* ---------- quiz results summary ---------- */
+  .quiz-summary{width:100%;max-width:720px;margin:0 auto}
+  .qs-top{text-align:center;margin-bottom:1.4rem}
+  .qs-top h3{font-family:var(--font-head);font-size:1.1rem;color:var(--txt);margin-bottom:.4rem}
+  .qs-score{font-size:2.1rem;font-weight:800;color:var(--accent2);font-family:var(--font-head)}
+  .qs-score small{font-size:1.1rem;font-weight:600;color:var(--muted)}
+  .qs-sub{font-size:.85rem;color:var(--muted);margin-top:.3rem}
+  .quiz-summary{width:min(96vw,880px)}
+  .qs-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;align-items:start}
+  @media(max-width:640px){.qs-list{grid-template-columns:1fr}}
+  .qs-item{border-radius:12px;padding:.9rem 1rem;border:1px solid var(--line);border-left:4px solid var(--line);
+    background:var(--panel)}
+  .qs-item.correct{border-left-color:var(--good);background:#f2fbf5}
+  .qs-item.wrong{border-left-color:var(--bad);background:#fdf4f3}
+  body.dark .qs-item.correct{background:#123528}
+  body.dark .qs-item.wrong{background:#3a1f1c}
+  .qs-q{font-size:.95rem;font-weight:700;color:var(--txt);line-height:1.4;margin-bottom:.35rem}
+  .qs-meta{font-size:.78rem;font-weight:700;margin-bottom:.45rem}
+  .qs-item.correct .qs-meta{color:var(--good)}
+  .qs-item.wrong .qs-meta{color:var(--bad)}
+  .qs-fact{font-size:.85rem;color:var(--txt);line-height:1.5;opacity:.9}
+  .qs-cite{margin-top:.55rem;font-size:.72rem;color:var(--accent2);border-top:1px dashed var(--line);padding-top:.45rem}
+  .qs-cite a{color:var(--accent2)}
+  .qs-replay{display:block;margin:1.5rem auto 0;background:var(--accent);color:#fff;border:none;border-radius:12px;
+    padding:.6rem 1.4rem;font-weight:700;cursor:pointer;font-size:.9rem}
+
+  /* ---------- scroll animation ---------- */
+  .scrolly{position:relative;background:linear-gradient(180deg,var(--bg),var(--panel2))}
+  .scrolly .sticky{position:sticky;top:52px;height:calc(100vh - 60px);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;overflow:hidden;padding:0 1rem}
+  .stage-caption{text-align:center;max-width:640px;padding:0 1rem;min-height:120px}
+  .stage-caption .kicker{font-size:.68rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--batik)}
+  .stage-caption h3{color:var(--accent2);font-size:1.25rem;margin:.2rem 0 .3rem}
+  .stage-caption p{color:var(--muted);font-size:.92rem}
+  .progress-dots{display:flex;gap:.45rem;margin-top:.9rem;justify-content:center;flex-wrap:wrap}
+  .progress-dots i{width:9px;height:9px;border-radius:50%;background:var(--line);transition:.3s}
+  .progress-dots i.on{background:var(--accent);transform:scale(1.35)}
+  .part-nav{display:none;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:1rem;max-width:640px}
+  .part-nav.show{display:flex}
+  .part-nav button{font-family:var(--font-body);font-size:.7rem;font-weight:600;padding:.32rem .66rem;border-radius:16px;
+    border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;transition:.2s}
+  .part-nav button:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+  .part-nav button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  #fnppSvg{width:min(94vw,560px);height:auto;filter:drop-shadow(0 6px 18px rgba(23,50,72,.12))}
+  #fnppSvg .part{transition:opacity .4s}
+  #fnppSvg .dim{opacity:.22}
+  #fnppSvg .glow{filter:drop-shadow(0 0 6px rgba(14,116,144,.9))}
+
+  /* ---------- chatbot ---------- */
+  /* old inline chatbot replaced by SMRChatbot engine (smr-chatbot.js) — hidden to avoid a duplicate button */
+  #chatFab,#chatPanel{display:none!important}
+  /* sync the SMRChatbot engine to the site's manual dark toggle (it only follows the OS by default) */
+  body.dark .smr-chatbot{color:var(--txt)}
+  body.dark .smr-chatbot__panel{background:var(--panel);border-color:var(--line)}
+  body.dark .smr-chatbot__message--bot,body.dark .smr-chatbot__typing,
+  body.dark .smr-chatbot__suggestion,body.dark .smr-chatbot__form{background:var(--panel2);border-color:var(--line);color:var(--txt)}
+  body.dark .smr-chatbot__input{background:var(--bg);color:var(--txt);border-color:var(--line)}
+  body.dark .smr-chatbot__cite a,body.dark .smr-chatbot__suggestion{color:var(--accent2)}
+  /* friendlier styling + nuclear avatar for the SMRChatbot */
+  .smr-chatbot__fab{background:linear-gradient(145deg,var(--accent),var(--accent2))!important;
+    width:60px!important;height:60px!important;font-size:0!important;box-shadow:0 10px 26px rgba(3,105,161,.42)!important}
+  .smr-chatbot__fab::after{content:"⚛";font-size:29px;color:#fff}
+  .smr-chatbot__panel{border-radius:18px!important;overflow:hidden;border-color:var(--line)!important;
+    box-shadow:0 20px 55px rgba(2,16,26,.42)!important}
+  .smr-chatbot__head{background:linear-gradient(135deg,#0b2233,#12506b)!important;padding:14px 15px!important;gap:11px!important}
+  .smr-chatbot__head::before{content:"⚛";display:flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7ff0ff,#0e7490);
+    color:#fff;font-size:20px;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .smr-chatbot__message{border-radius:14px!important;font-size:13.5px!important;line-height:1.5!important}
+  .smr-chatbot__message--user{background:var(--accent)!important;color:#fff!important}
+  .smr-chatbot__suggestion{border-radius:999px!important;font-weight:600;border-color:var(--line)!important}
+  .smr-chatbot__suggestion:hover{border-color:var(--accent)!important;color:var(--accent)!important}
+  .smr-chatbot__send{background:var(--accent)!important;color:#fff!important;border-radius:10px!important;padding:0 15px!important;font-weight:700}
+  .smr-chatbot__input{border-radius:10px!important}
+  #chatFab{position:fixed;right:18px;bottom:18px;z-index:100;width:60px;height:60px;border-radius:50%;
+    background:linear-gradient(145deg,var(--accent),var(--accent2));border:none;cursor:pointer;font-size:1.6rem;
+    box-shadow:0 8px 24px rgba(3,105,161,.35);transition:transform .2s;color:#fff}
+  #chatFab:hover{transform:scale(1.08)}
+  #chatPanel{position:fixed;right:14px;bottom:88px;z-index:100;width:min(380px,calc(100vw - 28px));
+    height:min(560px,calc(100vh - 120px));background:var(--panel);border:1px solid var(--line);
+    border-radius:16px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(23,50,72,.3)}
+  #chatPanel.open{display:flex}
+  .chat-head{background:var(--panel2);padding:.7rem .9rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--line)}
+  .chat-head b{font-size:.9rem}
+  .chat-head small{display:block;color:var(--muted);font-size:.68rem}
+  .chat-body{flex:1;overflow-y:auto;padding:.8rem;display:flex;flex-direction:column;gap:.55rem}
+  .msg{max-width:88%;padding:.55rem .75rem;border-radius:12px;font-size:.84rem;white-space:pre-wrap}
+  .msg.user{align-self:flex-end;background:var(--accent2);color:#fff;border-bottom-right-radius:3px}
+  .msg.bot{align-self:flex-start;background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:3px}
+  .msg.bot .cite{display:block;margin-top:.45rem;font-size:.68rem;color:var(--accent2);border-top:1px dashed var(--line);padding-top:.3rem}
+  .msg.bot .cite a{color:var(--accent2)}
+  .typing{align-self:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+    padding:.6rem .8rem;display:flex;gap:.28rem}
+  .typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tp 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+  @keyframes tp{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+  .chips{display:flex;gap:.4rem;flex-wrap:wrap;padding:.4rem .8rem}
+  .chips button{background:var(--panel2);border:1px solid var(--line);color:var(--accent2);border-radius:16px;
+    padding:.28rem .6rem;font-size:.7rem;cursor:pointer}
+  .chat-input{display:flex;gap:.5rem;padding:.6rem;border-top:1px solid var(--line)}
+  .chat-input input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    color:var(--txt);padding:.55rem .7rem;font-size:.85rem;outline:none}
+  .chat-input button{background:var(--accent);border:none;border-radius:10px;padding:0 .95rem;font-weight:700;
+    color:#fff;cursor:pointer}
+
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.75rem;text-align:center;padding:1.5rem 1rem;margin-top:2rem;background:var(--footer-bg);transition:background .3s ease}
+
+  @media (max-width:640px){
+    .big{font-size:1.55rem}
+    header nav{display:none}
+    section{padding:1.8rem .8rem}
+  }
+</style>
+</head>
+<body>
+
+<a id="top"></a>
+<header>
+  <a class="brand" href="#top" onclick="return goTop()" aria-label="UNIFY — back to top">
+    <svg class="atom-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <g transform="rotate(0 20 20)"><g class="orb s1">
+        <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--atom)" stroke-width="1.6"/>
+        <circle r="2.2" fill="var(--atom)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M4,20 a16,6 0 1,0 32,0 a16,6 0 1,0 -32,0"/></circle>
+      </g></g>
+      <g transform="rotate(60 20 20)"><g class="orb s2">
+        <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+        <circle r="2.2" fill="var(--accent)"><animateMotion dur="3.2s" begin="-1s" repeatCount="indefinite" path="M4,20 a16,6 0 1,0 32,0 a16,6 0 1,0 -32,0"/></circle>
+      </g></g>
+      <g transform="rotate(120 20 20)"><g class="orb s3">
+        <ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--accent2)" stroke-width="1.6"/>
+        <circle r="2.2" fill="var(--accent2)"><animateMotion dur="3.8s" begin="-2s" repeatCount="indefinite" path="M4,20 a16,6 0 1,0 32,0 a16,6 0 1,0 -32,0"/></circle>
+      </g></g>
+      <circle cx="20" cy="20" r="3.6" fill="var(--accent2)"/>
+    </svg>
+    <span class="logo">UNIFI</span>
+  </a>
+  <div class="head-actions">
+    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark / light" aria-label="Toggle dark mode">🌙</button>
+    <div class="lang-select">
+      <span class="lang-globe" aria-hidden="true">🌐</span>
+      <select id="langSelect" aria-label="Language" onchange="setLang(this.value)">
+        <option value="en">English</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="ru">Русский</option>
+      </select>
+      <span class="lang-caret" aria-hidden="true">▾</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="hero-brand">
+    <svg class="hero-atom" viewBox="0 0 40 40" aria-hidden="true">
+      <g transform="rotate(0 20 20)"><g class="orb s1">
+        <ellipse cx="20" cy="20" rx="17" ry="6.2" fill="none" stroke="var(--atom)" stroke-width="1.3"/>
+        <circle r="2.2" fill="#eafcff"><animateMotion dur="2.8s" repeatCount="indefinite" path="M3,20 a17,6.2 0 1,0 34,0 a17,6.2 0 1,0 -34,0"/></circle>
+      </g></g>
+      <g transform="rotate(60 20 20)"><g class="orb s2">
+        <ellipse cx="20" cy="20" rx="17" ry="6.2" fill="none" stroke="#7fd9e8" stroke-width="1.3"/>
+        <circle r="2.2" fill="#eafcff"><animateMotion dur="3.5s" begin="-1.2s" repeatCount="indefinite" path="M3,20 a17,6.2 0 1,0 34,0 a17,6.2 0 1,0 -34,0"/></circle>
+      </g></g>
+      <g transform="rotate(120 20 20)"><g class="orb s3">
+        <ellipse cx="20" cy="20" rx="17" ry="6.2" fill="none" stroke="#bfeff6" stroke-width="1.3"/>
+        <circle r="2.2" fill="#eafcff"><animateMotion dur="4.2s" begin="-2.4s" repeatCount="indefinite" path="M3,20 a17,6.2 0 1,0 34,0 a17,6.2 0 1,0 -34,0"/></circle>
+      </g></g>
+      <circle class="nuc" cx="20" cy="20" r="4" fill="var(--atom)"/>
+    </svg>
+    <span class="hero-name">UNIFI</span>
+  </div>
+  <div class="hero-tagline" data-i18n="hero_tag">United Nuclear Innovation For Infrastructure</div>
+  <h1 data-i18n="hero_h1">Nuclear power is <em>safe</em> — and one of the <em>cleanest</em> energy sources we have.</h1>
+  <p data-i18n="hero_p">Don't take our word for it. Every number on this page links to a public, verifiable source — <a href="https://www.unscear.org/" target="_blank" rel="noopener">UNSCEAR</a>, the <a href="https://www.iaea.org/" target="_blank" rel="noopener">IAEA</a>, the <a href="https://www.nrc.gov/" target="_blank" rel="noopener">US NRC</a>, <a href="https://ourworldindata.org/" target="_blank" rel="noopener">Our World in Data</a>.</p>
+  <p class="hero-mission" data-i18n="hero_mission">UNIFI stands for <b>U</b>nited <b>N</b>uclear <b>I</b>nnovation <b>F</b>or <b>I</b>nfrastructure. We gather clear, sourced answers about nuclear energy in one place — so every Indonesian community can explore the facts and help build the country's clean-energy future with confidence.</p>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="dash">
+  <h2><span class="batik-dot">◆</span> <span data-i18n="dash_h">Proven SMR results</span></h2>
+  <p class="sub" data-i18n="dash_sub">Modeled on the Akademik Lomonosov (2×KLT-40S, 70 MWe) — the only floating nuclear plant operating anywhere in the world — placed at a candidate site in Bangka Belitung.</p>
+
+  <div class="grid" id="dashGrid">
+    <div class="card" data-ico="⚡">
+      <h3><span data-i18n="c_power">Power Output</span> <span class="badge sim">sim</span> <i class="src" data-src="lomonosov"></i></h3>
+      <div class="big"><span id="vPower" data-count>–</span> <small>MW</small></div>
+      <div class="mini-bar"><i id="capBar"></i></div>
+      <div class="delta"><span id="vCap">–</span>% <span data-i18n="c_ofcap">of capacity — reactors run steady, not spiky</span></div>
+    </div>
+    <div class="card" data-ico="🏠">
+      <h3><span data-i18n="c_homes">Homes Supplied</span> <span class="badge sim">sim</span> <i class="src" data-src="homes"></i></h3>
+      <div class="big" id="vHomes" data-count>–</div>
+      <div class="delta" data-i18n="c_homes_n">at avg. Indonesian household use</div>
+    </div>
+    <div class="card" data-ico="🔋">
+      <h3><span data-i18n="c_energy">Energy per Day</span> <span class="badge sim">sim</span> <i class="src" data-src="lomonosov"></i></h3>
+      <div class="big"><span id="vMwh" data-count>–</span> <small>MWh</small></div>
+      <div class="delta" data-i18n="c_since">modelled over 24 h at steady output</div>
+    </div>
+    <div class="card" data-ico="🏭">
+      <h3><span data-i18n="c_co2">CO₂ Avoided per Day vs Coal</span> <span class="badge sim">sim</span> <i class="src" data-src="co2coal"></i></h3>
+      <div class="big"><span id="vCo2" data-count>–</span> <small>t</small></div>
+      <div class="delta"><span id="vCoal">–</span> <span data-i18n="c_coal_n">tonnes of coal not burned</span></div>
+    </div>
+    <div class="card">
+      <svg class="ico-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <ellipse cx="12" cy="4.6" rx="6.4" ry="2.2"/>
+        <path d="M5.6 4.6 v14.8 c0 1.2 2.9 2.2 6.4 2.2 s6.4 -1 6.4 -2.2 V4.6"/>
+        <path d="M5.6 9.7 c0 1.2 2.9 2.2 6.4 2.2 s6.4 -1 6.4 -2.2"/>
+        <path d="M5.6 14.6 c0 1.2 2.9 2.2 6.4 2.2 s6.4 -1 6.4 -2.2"/>
+      </svg>
+      <h3><span data-i18n="c_diesel">Diesel Displaced per Day</span> <span class="badge sim">sim</span> <i class="src" data-src="diesel"></i></h3>
+      <div class="big"><span id="vDiesel" data-count>–</span> <small>L</small></div>
+      <div class="delta" data-i18n="c_diesel_n">remote islands depend on costly diesel</div>
+    </div>
+    <div class="card" data-ico="🌊">
+      <h3><span data-i18n="c_weather">Site Conditions</span> <span class="badge live" data-i18n="b_live">live</span> <i class="src" data-src="meteo"></i></h3>
+      <div class="big"><span id="vTemp">–</span><small>°C</small></div>
+      <div class="delta"><span data-i18n="c_wind">Wind</span> <span id="vWind">–</span> km/h · <span data-i18n="c_wave">Waves</span> <span id="vWave">–</span> m</div>
+    </div>
+  </div>
+
+  <div class="gauge-wrap" style="margin-top:1rem">
+    <div class="card" style="flex:2">
+      <h3><span data-i18n="c_rad">Radiation at Plant Perimeter</span> <span class="badge sim">sim</span> <i class="src" data-src="radrate"></i></h3>
+      <div class="big"><span id="vRad">–</span> <small>µSv/h</small></div>
+      <div class="rad-bar"><div class="rad-zone"></div><div class="rad-marker" id="radMarker" style="left:24%"></div></div>
+      <div class="rad-scale"><span>0</span><span data-i18n="r_normal">natural background range (0.05–0.30)</span><span>0.5+</span></div>
+      <p class="sub" style="margin:.6rem 0 0" data-i18n="r_note">The marker sits inside the range of natural background radiation found everywhere on Earth. This is not hypothetical transparency: the EU (EURDEP, 5,500+ stations) and Japan publish live plant radiation data exactly like this today.</p>
+    </div>
+    <div class="card dose-card">
+      <h3><span data-i18n="c_year">Everyday radiation, side by side (µSv)</span> <i class="src" data-src="nrc"></i></h3>
+      <div class="dose-head"><span class="dh-src" data-i18n="dose_h_src">Everyday source</span><span class="dh-dose" data-i18n="dose_h_dose">Radiation dose · µSv</span></div>
+      <div class="dose-list" id="doseList">
+        <div class="dose-row" data-cmp-en="The baseline: a whole year at the plant's fence line adds just <b>0.1 µSv</b>." data-cmp-id="Titik acuan: satu tahun penuh di pagar PLTN hanya menambah <b>0,1 µSv</b>." data-cmp-ru="Базовый уровень: целый год у ограды станции добавляет всего <b>0,1 µЗв</b>."><span class="d-ico">🏭</span><span class="d-lbl" data-i18n="d_plant">Beside the plant, 1 year</span><span class="d-bar"><i style="--w:2%;--c:var(--good)"></i></span><span class="d-val">0.1</span></div>
+        <div class="dose-row" data-cmp-en="Eating <b>one banana</b> (0.1 µSv) = a whole year living beside the plant." data-cmp-id="Makan <b>satu pisang</b> (0,1 µSv) = satu tahun penuh tinggal di samping PLTN." data-cmp-ru="Съесть <b>один банан</b> (0,1 µЗв) = целый год жизни рядом со станцией."><span class="d-ico">🍌</span><span class="d-lbl" data-i18n="d_banana">One banana</span><span class="d-bar"><i style="--w:2%;--c:var(--good)"></i></span><span class="d-val">0.1</span></div>
+        <div class="dose-row" data-cmp-en="One flight (5 µSv) = <b>50 years</b> living beside the plant." data-cmp-id="Satu penerbangan (5 µSv) = <b>50 tahun</b> tinggal di samping PLTN." data-cmp-ru="Один перелёт (5 µЗв) = <b>50 лет</b> жизни рядом со станцией."><span class="d-ico">✈️</span><span class="d-lbl" data-i18n="d_flight">Jakarta–Bali flight</span><span class="d-bar"><i style="--w:5%;--c:var(--accent)"></i></span><span class="d-val">5</span></div>
+        <div class="dose-row" data-cmp-en="A handful of nuts (~10 µSv) = <b>100 years</b> living beside the plant." data-cmp-id="Segenggam kacang (~10 µSv) = <b>100 tahun</b> tinggal di samping PLTN." data-cmp-ru="Горсть орехов (~10 µЗв) = <b>100 лет</b> жизни рядом со станцией."><span class="d-ico">🌰</span><span class="d-lbl" data-i18n="d_brazil">Brazil nuts (a handful)</span><span class="d-bar"><i style="--w:10%;--c:var(--accent)"></i></span><span class="d-val">~10</span></div>
+        <div class="dose-row" data-cmp-en="One chest X-ray (100 µSv) = <b>1,000 years</b> living beside the plant." data-cmp-id="Satu rontgen dada (100 µSv) = <b>1.000 tahun</b> tinggal di samping PLTN." data-cmp-ru="Один рентген грудной клетки (100 µЗв) = <b>1 000 лет</b> жизни рядом со станцией."><span class="d-ico">🩻</span><span class="d-lbl" data-i18n="d_xray">Chest X-ray</span><span class="d-bar"><i style="--w:100%;--c:var(--warn)"></i></span><span class="d-val">100</span></div>
+      </div>
+      <div class="dose-focus" id="doseFocus"><span class="df-ico"></span><span class="df-txt"></span></div>
+    </div>
+  </div>
+
+  <div class="method-note" data-i18n="method">
+    <b>What am I looking at?</b> These are <b>modelled</b> figures, not a live feed. The SIMULATED values are calculated from the Akademik Lomonosov's published specifications (steady ~90% output) — a typical single day of operation, not real-time telemetry. Only <b>Site Conditions</b> is genuinely live, fetched from the open Open-Meteo weather API. When a real plant is built and operating, its own certified sensor feed would replace this model — the page layout stays the same.
+  </div>
+  <p class="src-line" data-i18n="src_line"><b>📎 Sources —</b> reactor specs: <a href="https://www.world-nuclear-news.org/articles/russias-floating-nuclear-power-plant-passes-one-billion-kwh" target="_blank" rel="noopener">World Nuclear News / IAEA PRIS</a>; CO₂ &amp; coal: <a href="https://www.eia.gov/tools/faqs/faq.php?id=74" target="_blank" rel="noopener">US EIA</a> &amp; <a href="https://unece.org/sites/default/files/2021-11/LCA_final.pdf" target="_blank" rel="noopener">UNECE 2021</a>; diesel: <a href="https://www.iea.org/" target="_blank" rel="noopener">IEA</a>; household use: <a href="https://ember-energy.org/countries-and-regions/indonesia/" target="_blank" rel="noopener">Ember / PLN</a>; weather: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Or tap any <b>ⓘ</b> beside a figure for its exact reference.</p>
+</section>
+
+<!-- ================= COMPARISONS ================= -->
+<!-- ============================================================
+     UNIFI STATS — interactive SMR deployment model (React + Recharts + Tailwind, CDN).
+     Renders into #unifiStatsRoot from unifi-stats.js / unifi-data.js / unifi-i18n.js.
+     ============================================================ -->
+<section id="compare">
+  <h2><span class="batik-dot">◆</span> <span data-i18n="cmp_h">SMR Deployment Analytics</span></h2>
+  <p class="sub" data-i18n="cmp_sub">An interactive, country-selectable model of small modular reactor deployment — built on the WRI Global Power Plant Database (CC BY 4.0).</p>
+  <div class="unifi-wrap">
+    <div id="unifiStatsRoot"></div>
+    <div id="unifiLoading" class="unifi-loading"><span class="unifi-spin">⚛</span> <span data-i18n="cmp_loading">Loading analytics…</span></div>
+  </div>
+</section>
+
+<!-- ================= FACT GAME — Check Your Knowledge ================= -->
+<section id="myths">
+  <h2><span class="batik-dot">◆</span> <span data-i18n="myth_h">Check Your Knowledge</span></h2>
+  <p class="sub" data-i18n="myth_sub">Swipe right if you think it's TRUE, left if it is FALSE. We'll show your full results, colour-coded with sources, at the end.</p>
+  <div class="deck-wrap">
+    <div class="deck-row" id="deckRow">
+      <button class="deck-btn btn-false" id="btnFalse" title="False" aria-label="Swipe left — False">✗</button>
+      <div class="deck" id="deck"></div>
+      <button class="deck-btn btn-true" id="btnTrue" title="True" aria-label="Swipe right — True">✓</button>
+    </div>
+    <div class="deck-score" id="deckScore"></div>
+    <div class="quiz-summary" id="quizSummary" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ================= SCROLL ANIMATION ================= -->
+<section id="how" style="padding-bottom:0">
+  <h2><span class="batik-dot">◆</span> <span data-i18n="how_h">Working of Floating Nuclear Power Plant</span></h2>
+  <p class="sub" data-i18n="how_sub">Scroll to walk through it, step by step.</p>
+</section>
+<div class="scrolly" id="scrolly" style="height:780vh">
+  <div class="sticky">
+    <svg id="fnppSvg" viewBox="0 0 680 530" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#eaf5fb"/><stop offset="1" stop-color="#d3ebf6"/>
+        </linearGradient>
+        <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8ec6e4"/><stop offset="1" stop-color="#4b93b8"/>
+        </linearGradient>
+        <linearGradient id="hullG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3b5a75"/><stop offset="1" stop-color="#243a4e"/>
+        </linearGradient>
+      </defs>
+      <!-- sky + sun -->
+      <rect x="0" y="0" width="680" height="470" fill="url(#skyG)"/>
+      <circle cx="612" cy="60" r="24" fill="#f6d873" opacity=".85"/>
+
+      <!-- BARGE / FLOATING PLATFORM (always-on context, not a highlighted part) -->
+      <g id="barge">
+        <!-- turbine-hall deckhouse on deck -->
+        <rect x="338" y="176" width="266" height="264" rx="8" fill="#e4eef4" stroke="#9db4c6" stroke-width="2"/>
+        <!-- main deck line -->
+        <rect x="24" y="432" width="586" height="12" rx="3" fill="#c4463b"/>
+        <!-- hull -->
+        <path d="M24 444 L610 444 L566 502 L68 502 Z" fill="url(#hullG)" stroke="#1c2d3d" stroke-width="2"/>
+        <!-- portholes -->
+        <g fill="#9fc4dc"><circle cx="120" cy="463" r="4"/><circle cx="170" cy="463" r="4"/><circle cx="360" cy="463" r="4"/><circle cx="430" cy="463" r="4"/><circle cx="500" cy="463" r="4"/></g>
+        <!-- mooring lines to seabed -->
+        <line x1="70" y1="500" x2="30" y2="528" stroke="#2c4055" stroke-width="2.5"/>
+        <line x1="564" y1="500" x2="600" y2="528" stroke="#2c4055" stroke-width="2.5"/>
+      </g>
+
+      <!-- SEA (drawn over the lower hull so it looks submerged) -->
+      <rect x="0" y="470" width="680" height="60" fill="url(#seaG)"/>
+      <rect x="0" y="470" width="680" height="60" fill="#4b93b8" opacity=".28"/>
+      <path d="M0 470 Q 34 463 68 470 T 136 470 T 204 470 T 272 470 T 340 470 T 408 470 T 476 470 T 544 470 T 612 470 T 680 470 V478 H0 Z" fill="#bfe0f0" opacity=".7"/>
+      <path d="M0 486 Q 40 480 80 486 T 160 486 T 240 486 T 320 486 T 400 486 T 480 486 T 560 486 T 640 486 T 720 486 V494 H0 Z" fill="#eaf5fb" opacity=".45"/>
+
+      <g id="cContain" class="part">
+        <path d="M55 70 Q55 34 95 34 L255 34 Q295 34 295 70 L295 400 Q295 436 255 436 L95 436 Q55 436 55 400 Z"
+          fill="#eaf3f9" stroke="#8ba7bc" stroke-width="4"/>
+        <text x="175" y="55" text-anchor="middle" fill="#5b7288" font-size="11" font-family="sans-serif" font-weight="700">CONTAINMENT</text>
+      </g>
+
+      <g id="cVessel" class="part">
+        <path d="M92 150 Q92 96 175 96 Q258 96 258 150 L258 372 Q258 400 230 400 L120 400 Q92 400 92 372 Z"
+          fill="#d3e5f0" stroke="#5c85a3" stroke-width="3"/>
+      </g>
+
+      <g id="cPress" class="part">
+        <path d="M108 150 Q108 112 175 112 Q242 112 242 150 Z" fill="#c2dcec" stroke="#5c85a3" stroke-width="2"/>
+        <path d="M110 146 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#7fb0cf" stroke-width="2.5"/>
+        <text x="175" y="135" text-anchor="middle" fill="#3d6a86" font-size="9" font-family="sans-serif" font-weight="700">PRESSURIZER</text>
+      </g>
+
+      <g id="cCoolant" class="part">
+        <g stroke="#2563b6" stroke-width="5" stroke-linecap="round" fill="#2563b6">
+          <line x1="118" y1="180" x2="118" y2="340"/><polygon points="110,332 126,332 118,348"/>
+          <line x1="232" y1="180" x2="232" y2="340"/><polygon points="224,332 240,332 232,348"/>
+        </g>
+        <g stroke="#c0392b" stroke-width="5" stroke-linecap="round" fill="#c0392b">
+          <line id="hotUp" x1="175" y1="360" x2="175" y2="200"/><polygon points="167,208 183,208 175,192"/>
+        </g>
+        <path d="M175 196 Q175 176 148 176 L124 176" fill="none" stroke="#2563b6" stroke-width="4"/>
+        <path d="M175 196 Q175 176 202 176 L226 176" fill="none" stroke="#2563b6" stroke-width="4"/>
+      </g>
+
+      <g id="cSteam" class="part">
+        <rect x="104" y="196" width="28" height="150" rx="14" fill="#cdd7e0" stroke="#9db4c6" stroke-width="2"/>
+        <rect x="218" y="196" width="28" height="150" rx="14" fill="#cdd7e0" stroke="#9db4c6" stroke-width="2"/>
+        <g stroke="#9db4c6" stroke-width="1.4">
+          <line x1="108" y1="215" x2="128" y2="215"/><line x1="108" y1="235" x2="128" y2="235"/>
+          <line x1="108" y1="255" x2="128" y2="255"/><line x1="108" y1="275" x2="128" y2="275"/>
+          <line x1="222" y1="215" x2="242" y2="215"/><line x1="222" y1="235" x2="242" y2="235"/>
+          <line x1="222" y1="255" x2="242" y2="255"/><line x1="222" y1="275" x2="242" y2="275"/>
+        </g>
+      </g>
+
+      <g id="cCore" class="part">
+        <rect x="150" y="352" width="50" height="46" rx="3" fill="#f4c518" stroke="#c99700" stroke-width="2"/>
+        <g stroke="#c99700" stroke-width="1.6">
+          <line x1="159" y1="354" x2="159" y2="396"/><line x1="168" y1="354" x2="168" y2="396"/>
+          <line x1="177" y1="354" x2="177" y2="396"/><line x1="186" y1="354" x2="186" y2="396"/>
+          <line x1="195" y1="354" x2="195" y2="396"/>
+        </g>
+        <path d="M150 398 h50 l-8 12 h-34 Z" fill="#2c3542"/>
+        <circle id="coreGlow" cx="175" cy="375" r="7" fill="#ff8a3d" opacity=".85"/>
+      </g>
+
+      <g id="cTurb" class="part">
+        <path id="steamPipe" d="M246 214 L 330 214 L 355 214" fill="none" stroke="#4b7bbd" stroke-width="5"
+          stroke-linecap="round" stroke-dasharray="10 7"/>
+        <path d="M355 250 L 300 250 L 246 250" fill="none" stroke="#2563b6" stroke-width="4" stroke-linecap="round"/>
+        <rect x="356" y="188" width="96" height="82" rx="7" fill="#cfe0ec" stroke="#9db4c6" stroke-width="2"/>
+        <g id="turbine" transform="translate(404,222)">
+          <circle r="20" fill="#fff" stroke="#0369a1" stroke-width="2.5"/>
+          <g id="blades" fill="#0369a1">
+            <rect x="-3" y="-17" width="6" height="14" rx="3"/><rect x="-3" y="3" width="6" height="14" rx="3"/>
+            <rect x="-17" y="-3" width="14" height="6" rx="3"/><rect x="3" y="-3" width="14" height="6" rx="3"/>
+          </g>
+        </g>
+        <text x="404" y="255" text-anchor="middle" fill="#0369a1" font-size="9" font-family="sans-serif" font-weight="700">TURBINE</text>
+      </g>
+
+      <g id="cGen" class="part">
+        <line x1="424" y1="222" x2="470" y2="222" stroke="#173248" stroke-width="4"/>
+        <rect x="470" y="192" width="82" height="60" rx="6" fill="#0e7490" stroke="#0b5a70" stroke-width="2"/>
+        <path d="M480 222 q10 -14 20 0 t20 0 t20 0" fill="none" stroke="#bfe3ef" stroke-width="3"/>
+        <text x="511" y="245" text-anchor="middle" fill="#e6f6fb" font-size="10" font-family="sans-serif" font-weight="700">GENERATOR</text>
+        <rect x="552" y="200" width="16" height="10" fill="#173248"/><rect x="552" y="234" width="16" height="10" fill="#173248"/>
+      </g>
+
+      <g id="cGrid" class="part">
+        <path id="cable" d="M576 250 C 616 300, 622 420, 626 468"
+          fill="none" stroke="#15803d" stroke-width="4" stroke-dasharray="11 8"/>
+        <ellipse cx="628" cy="480" rx="52" ry="15" fill="#3f7d4e"/>
+        <ellipse cx="628" cy="476" rx="46" ry="12" fill="#4c9059"/>
+        <polygon points="606,470 618,432 630,470" fill="none" stroke="#173248" stroke-width="2.5"/>
+        <line x1="608" y1="452" x2="628" y2="452" stroke="#173248" stroke-width="2"/>
+        <rect x="638" y="450" width="12" height="24" fill="#fff" stroke="#9db4c6"/>
+        <rect x="654" y="444" width="12" height="30" fill="#fff" stroke="#9db4c6"/>
+        <text x="628" y="502" text-anchor="middle" fill="#173248" font-size="9" font-family="sans-serif" font-weight="700">ISLAND GRID</text>
+      </g>
+
+      <!-- WASTE MANAGEMENT — tow-away pipeline (sealed unit → tug → licensed facility) -->
+      <g id="cWaste" class="part">
+        <rect x="300" y="44" width="378" height="112" rx="10" fill="#ffffff" stroke="#cddbe6" stroke-width="1.5" opacity=".92"/>
+        <text x="489" y="62" text-anchor="middle" fill="#5b7288" font-size="10" font-family="sans-serif" font-weight="800">HOW THE WASTE LEAVES — NOTHING STAYS OR IS DUMPED</text>
+
+        <!-- step 1: sealed floating unit -->
+        <g transform="translate(312,78)">
+          <path d="M0 34 L58 34 L50 50 L8 50 Z" fill="#3b5a75" stroke="#243a4e" stroke-width="1.5"/>
+          <rect x="12" y="16" width="34" height="18" rx="3" fill="#b7c2cc" stroke="#6b7c8a"/>
+          <g transform="translate(29,25)" fill="#173248"><circle r="2.2"/><path d="M0 0 L4.5 -7.5 A8 8 0 0 0 -4.5 -7.5 Z"/><path d="M0 0 L8.5 2.5 A8 8 0 0 0 4 -7.3 Z" transform="rotate(120)"/><path d="M0 0 L8.5 2.5 A8 8 0 0 0 4 -7.3 Z" transform="rotate(240)"/></g>
+          <text x="29" y="66" text-anchor="middle" fill="#173248" font-size="8.5" font-family="sans-serif" font-weight="700">1 · Fuel sealed</text>
+          <text x="29" y="76" text-anchor="middle" fill="#5b7288" font-size="8" font-family="sans-serif">inside unit ~10–12 yr</text>
+        </g>
+
+        <!-- tug + dashed tow line -->
+        <path id="towLine" d="M372 100 h 34" fill="none" stroke="#15803d" stroke-width="2.5" stroke-dasharray="7 5"/>
+        <g transform="translate(408,86)">
+          <path d="M0 16 L28 16 L23 27 L5 27 Z" fill="#c4463b" stroke="#8a2f27" stroke-width="1.2"/>
+          <rect x="7" y="6" width="11" height="11" rx="1.5" fill="#e4eef4" stroke="#9db4c6"/>
+          <text x="14" y="40" text-anchor="middle" fill="#5b7288" font-size="8" font-family="sans-serif" font-weight="700">2 · Whole unit towed</text>
+        </g>
+        <path d="M452 100 h 44" fill="none" stroke="#173248" stroke-width="2" stroke-dasharray="6 4"/>
+        <polygon points="496,100 488,95 488,105" fill="#173248"/>
+
+        <!-- licensed facility + safeguards shield -->
+        <g transform="translate(506,74)">
+          <rect x="0" y="18" width="82" height="46" rx="3" fill="#e6edf2" stroke="#9db4c6"/>
+          <polygon points="0,18 41,2 82,18" fill="#b7c2cc" stroke="#9db4c6" stroke-width="1.2"/>
+          <rect x="32" y="40" width="18" height="24" fill="#0e7490"/>
+          <g transform="translate(41,20)">
+            <path d="M0 -14 L12 -9 V0 C12 8 6 12 0 15 C-6 12 -12 8 -12 0 V-9 Z" fill="#15803d"/>
+            <path d="M-5 0 L-1 5 L6 -5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <text x="41" y="78" text-anchor="middle" fill="#173248" font-size="8.5" font-family="sans-serif" font-weight="700">3 · Licensed facility</text>
+          <text x="41" y="88" text-anchor="middle" fill="#5b7288" font-size="8" font-family="sans-serif">IAEA safeguards</text>
+        </g>
+      </g>
+    </svg>
+    <div class="stage-caption">
+      <div class="kicker" id="stageKicker">PART 1 / 10</div>
+      <h3 id="stageTitle">–</h3>
+      <p id="stageText">–</p>
+      <div class="progress-dots" id="dots"></div>
+      <div class="part-nav" id="partNav"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span data-i18n="foot">HackAtom 2026 prototype · Every value carries a public source · Designed to fulfil IAEA nuclear infrastructure Issue 2: Stakeholder Involvement (IAEA NG-G-5.1)</span>
+</footer>
+
+<!-- ================= CHATBOT ================= -->
+<button id="chatFab" onclick="toggleChat()">💬</button>
+<div id="chatPanel">
+  <div class="chat-head">
+    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#fff">⚛</div>
+    <div><b>Tanya Atom</b><small data-i18n="bot_sub">Verified facts only — every answer cites its source</small></div>
+    <button onclick="toggleChat()" style="margin-left:auto;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chips" id="chatChips"></div>
+  <div class="chat-input">
+    <input id="chatInput" data-i18n-ph="bot_ph" placeholder="Ask about safety, radiation, waste…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<div class="src-pop" id="srcPop"></div>
+
+<script>
+/* =========================================================
+   CONFIG — tune everything here
+   ========================================================= */
+const CONFIG = {
+  capacityMWe: 70,          // Akademik Lomonosov 2×KLT-40S (WNN / IAEA PRIS)
+  capacityFactor: 0.90,     // design-typical assumption
+  coalEF: 0.95,             // kgCO2/kWh direct from coal plant (EIA)
+  coalPerKwh: 0.45,         // kg coal / kWh
+  dieselPerKwh: 0.27,       // L / kWh island genset
+  homeKwhYear: 1200,        // avg Indonesian household (VERIFY w/ PLN)
+  site: {lat:-2.13, lon:106.11, name:"Bangka Belitung"},
+  llmEndpoint: null         // ← later: your RAG backend URL
+};
+
+const SOURCES = {
+  lomonosov:{n:"World Nuclear News / IAEA PRIS — Akademik Lomonosov, 2×KLT-40S, 70 MWe",u:"https://www.world-nuclear-news.org/articles/russias-floating-nuclear-power-plant-passes-one-billion-kwh"},
+  homes:{n:"PLN / Ember — avg household ≈1,200 kWh/yr (verify)",u:"https://ember-energy.org/countries-and-regions/indonesia/"},
+  co2coal:{n:"US EIA — coal plant ≈0.95 kgCO₂/kWh; UNECE 2021 lifecycle",u:"https://www.eia.gov/tools/faqs/faq.php?id=74"},
+  diesel:{n:"Typical genset ≈0.27 L/kWh (IEA)",u:"https://www.iea.org/"},
+  meteo:{n:"Open-Meteo — live weather & marine API (CC-BY, keyless), fetched from your browser right now",u:"https://open-meteo.com/"},
+  radrate:{n:"UNSCEAR / EURDEP — natural background 0.05–0.30 µSv/h",u:"https://remap.jrc.ec.europa.eu/"},
+  nrc:{n:"US NRC — Doses in Our Daily Lives",u:"https://www.nrc.gov/about-nrc/radiation/around-us/doses-daily-lives.html"},
+  owid:{n:"Our World in Data — Safest sources of energy (CC-BY)",u:"https://ourworldindata.org/safest-sources-of-energy"},
+  unece:{n:"UNECE 2021 — Life Cycle Assessment of Electricity Options",u:"https://unece.org/sites/default/files/2021-11/LCA_final.pdf"}
+};
+
+/* =========================================================
+   I18N
+   ========================================================= */
+const I18N = {
+  en:{
+    sim_banner:"Values marked <b>SIMULATED</b> are modeled on public data from the operating floating plant “Akademik Lomonosov” (IAEA PRIS). Values marked <b>LIVE</b> come from real open APIs right now.",
+    hero_h1:"Nuclear power is <em>safe</em> — and one of the <em>cleanest</em> energy sources we have.",
+    hero_p:"Don't take our word for it. Every number on this page links to a public, verifiable source — <a href='https://www.unscear.org/' target='_blank' rel='noopener'>UNSCEAR</a>, the <a href='https://www.iaea.org/' target='_blank' rel='noopener'>IAEA</a>, the <a href='https://www.nrc.gov/' target='_blank' rel='noopener'>US NRC</a>, <a href='https://ourworldindata.org/' target='_blank' rel='noopener'>Our World in Data</a>.",
+    hero_tag:"United Nuclear Innovation For Infrastructure",
+    hero_mission:"UNIFI stands for <b>U</b>nited <b>N</b>uclear <b>I</b>nnovation <b>F</b>or <b>I</b>nfrastructure. We gather clear, sourced answers about nuclear energy in one place — so every Indonesian community can explore the facts and help build the country's clean-energy future with confidence.",
+    trust_row:"Data from <b>IAEA</b> <span class='dot'>•</span> <b>UNSCEAR</b> <span class='dot'>•</span> <b>US NRC</b> <span class='dot'>•</span> <b>Our World in Data</b> <span class='dot'>•</span> <b>UNECE</b>",
+    nav_dash:"Dashboard",nav_cmp:"The Numbers",nav_myth:"Myth vs Fact",nav_how:"How It Works",
+    dash_h:"Proven SMR results",
+    dash_sub:"Modeled on the Akademik Lomonosov (2×KLT-40S, 70 MWe) — the only floating nuclear plant operating anywhere in the world — placed at a candidate site in Bangka Belitung.",
+    b_live:"live",
+    c_power:"Power Output",c_ofcap:"of capacity — reactors run steady, not spiky",c_homes:"Homes Supplied",c_homes_n:"at avg. Indonesian household use",
+    c_energy:"Energy per Day",c_since:"modelled over 24 h at steady output",c_co2:"CO₂ Avoided per Day vs Coal",c_coal_n:"tonnes of coal not burned",
+    c_diesel:"Diesel Displaced per Day",c_diesel_n:"remote islands depend on costly diesel",c_weather:"Site Conditions",
+    c_wind:"Wind",c_wave:"Waves",c_rad:"Radiation at Plant Perimeter",r_normal:"natural background range (0.05–0.30)",
+    r_note:"The marker sits inside the range of natural background radiation found everywhere on Earth. This is not hypothetical transparency: the EU (EURDEP, 5,500+ stations) and Japan publish live plant radiation data exactly like this today.",
+    c_year:"Everyday radiation, side by side (µSv)",
+    c_year_n:"US NRC: living within 80 km of a nuclear plant adds ~0.1 µSv per year — about the dose from eating a single banana.",
+    d_plant:"Beside the plant, 1 year",d_banana:"One banana",d_brazil:"Brazil nuts (a handful)",
+    d_flight:"Jakarta–Bali flight",d_xray:"Chest X-ray",d_bg:"Natural background, 1 year",
+    de_a:"🏭 1 year here",de_b:"🍌 1 banana",
+    dose_h_src:"Everyday source",dose_h_dose:"Radiation dose · µSv",
+    dose_punch:"🩻 One chest X-ray ≈ <b>1,000 years</b> living right beside the plant.",
+    dose_note:"Everyday doses in microsieverts (µSv). A whole year at the plant's fence ≈ one banana — thousands of times below the natural background you already live in.",
+    method:"<b>What am I looking at?</b> These are <b>modelled</b> figures, not a live feed. The SIMULATED values are calculated from the Akademik Lomonosov's published specifications (steady ~90% output) — a typical single day of operation, not real-time telemetry. Only <b>Site Conditions</b> is genuinely live, fetched from the open Open-Meteo weather API. When a real plant is built and operating, its own certified sensor feed would replace this model — the page layout stays the same.",
+    src_line:"<b>📎 Sources —</b> reactor specs: <a href='https://www.world-nuclear-news.org/articles/russias-floating-nuclear-power-plant-passes-one-billion-kwh' target='_blank' rel='noopener'>World Nuclear News / IAEA PRIS</a>; CO₂ &amp; coal: <a href='https://www.eia.gov/tools/faqs/faq.php?id=74' target='_blank' rel='noopener'>US EIA</a> &amp; <a href='https://unece.org/sites/default/files/2021-11/LCA_final.pdf' target='_blank' rel='noopener'>UNECE 2021</a>; diesel: <a href='https://www.iea.org/' target='_blank' rel='noopener'>IEA</a>; household use: <a href='https://ember-energy.org/countries-and-regions/indonesia/' target='_blank' rel='noopener'>Ember / PLN</a>; weather: <a href='https://open-meteo.com/' target='_blank' rel='noopener'>Open-Meteo</a>. Or tap any <b>ⓘ</b> beside a figure for its exact reference.",
+    cmp_h:"SMR Deployment Analytics",cmp_sub:"An interactive, country-selectable model of small modular reactor deployment — built on the WRI Global Power Plant Database (CC BY 4.0).",cmp_loading:"Loading analytics…",
+    win_low:"nuclear lowest",win_safe:"nuclear safest",win_clean:"nuclear cleanest",
+    cmp_take:"On all three measures that people worry about most — <b>radiation, safety and carbon</b> — nuclear lands at the safe, clean end of the scale. And these figures already include Chernobyl and Fukushima.",
+    ch1:"Everyday radiation doses (µSv, log scale)",ch2:"Deaths per TWh of electricity (incl. Chernobyl & Fukushima)",ch3:"Lifecycle greenhouse gases (gCO₂eq/kWh) — nuclear is the lowest",
+    myth_h:"Check Your Knowledge",myth_sub:"Swipe right if you think it's TRUE, left if it is FALSE. We'll show your full results, colour-coded with sources, at the end.",
+    deck_swipe_no:"◀ FALSE",deck_swipe_yes:"TRUE ▶",deck_true:"TRUE",deck_false:"FALSE",
+    deck_correct:"Correct!",deck_wrong:"Not quite —",deck_next:"Next card →",
+    deck_score:"Score: <b>{c}</b> / {t}",deck_progress:"Card {n} of {t}",
+    deck_done_h:"You finished the deck!",deck_done_p:"You got <b class='big-score'>{c}/{t}</b> right. Every answer above links to a public source — check any you doubted.",
+    deck_replay:"Play again",
+    eb_title:"Small Modular Reactor",eb_sub:"Compact, factory-built and floated to where the power is needed — steady, clean energy, day and night.",
+    how_h:"Working of Floating Nuclear Power Plant",how_sub:"Scroll slowly — each part of the reactor is defined as it lights up, ending with how the waste is handled.",
+    how_done_t:"The whole plant, working together",how_done_x:"Every part is lit — tap any component below to revisit what it does.",
+    foot:"HackAtom 2026 prototype · Every value carries a public source · Designed to fulfil IAEA nuclear infrastructure Issue 2: Stakeholder Involvement (IAEA NG-G-5.1)",
+    bot_sub:"Verified facts only — every answer cites its source",bot_ph:"Ask about safety, radiation, waste…",
+    bot_hello:"Halo! 👋 I answer questions about nuclear power using ONLY verified public sources (IAEA, UNSCEAR, NRC, Our World in Data). Ask me anything — English atau Bahasa Indonesia.",
+    bot_fallback:"I don't have a verified source for that yet, so I won't guess — this assistant only answers from checked facts. Try asking about: safety, Chernobyl, radiation, waste, tsunamis, jobs, or cost. (In the full version, unanswered questions are routed to human experts at BAPETEN.)"
+  },
+  id:{
+    sim_banner:"Nilai bertanda <b>SIMULASI</b> dimodelkan dari data publik PLTN terapung “Akademik Lomonosov” yang beroperasi (IAEA PRIS). Nilai bertanda <b>LANGSUNG</b> berasal dari API terbuka saat ini juga.",
+    hero_h1:"Pembangkit listrik tenaga nuklir itu <em>aman</em> — dan salah satu sumber energi <em>terbersih</em> yang kita miliki.",
+    hero_p:"Jangan percaya begitu saja pada kami. Setiap angka di halaman ini tertaut ke sumber publik yang dapat diverifikasi — <a href='https://www.unscear.org/' target='_blank' rel='noopener'>UNSCEAR</a>, <a href='https://www.iaea.org/' target='_blank' rel='noopener'>IAEA</a>, <a href='https://www.nrc.gov/' target='_blank' rel='noopener'>US NRC</a>, <a href='https://ourworldindata.org/' target='_blank' rel='noopener'>Our World in Data</a>.",
+    hero_tag:"United Nuclear Innovation For Infrastructure",
+    hero_mission:"UNIFI adalah singkatan dari <b>U</b>nited <b>N</b>uclear <b>I</b>nnovation <b>F</b>or <b>I</b>nfrastructure. Kami menghimpun jawaban yang jelas dan bersumber tentang energi nuklir di satu tempat — agar setiap komunitas Indonesia dapat menelusuri fakta dan ikut membangun masa depan energi bersih negeri ini dengan percaya diri.",
+    trust_row:"Data dari <b>IAEA</b> <span class='dot'>•</span> <b>UNSCEAR</b> <span class='dot'>•</span> <b>US NRC</b> <span class='dot'>•</span> <b>Our World in Data</b> <span class='dot'>•</span> <b>UNECE</b>",
+    nav_dash:"Dasbor",nav_cmp:"Angka-Angka",nav_myth:"Mitos vs Fakta",nav_how:"Cara Kerja",
+    dash_h:"Hasil SMR yang Terbukti",
+    dash_sub:"Dimodelkan dari Akademik Lomonosov (2×KLT-40S, 70 MWe) — satu-satunya PLTN terapung yang beroperasi di dunia — ditempatkan di lokasi kandidat di Bangka Belitung.",
+    b_live:"langsung",
+    c_power:"Daya Keluaran",c_ofcap:"dari kapasitas — reaktor beroperasi stabil, tidak naik-turun",c_homes:"Rumah Teraliri",c_homes_n:"pada konsumsi rata-rata rumah tangga Indonesia",
+    c_energy:"Energi per Hari",c_since:"dimodelkan selama 24 jam pada keluaran stabil",c_co2:"CO₂ Terhindar per Hari vs Batu Bara",c_coal_n:"ton batu bara tidak dibakar",
+    c_diesel:"Diesel Tergantikan per Hari",c_diesel_n:"pulau terpencil bergantung pada diesel yang mahal",c_weather:"Kondisi Lokasi",
+    c_wind:"Angin",c_wave:"Ombak",c_rad:"Radiasi di Perimeter Pembangkit",r_normal:"rentang latar alami (0,05–0,30)",
+    r_note:"Penanda berada di dalam rentang radiasi latar alami yang ada di mana-mana di Bumi. Ini bukan transparansi hipotetis: Uni Eropa (EURDEP, 5.500+ stasiun) dan Jepang memublikasikan data radiasi pembangkit secara langsung seperti ini hari ini.",
+    c_year:"Radiasi sehari-hari, berdampingan (µSv)",
+    c_year_n:"US NRC: tinggal dalam radius 80 km dari PLTN menambah ~0,1 µSv per tahun — setara dosis makan satu buah pisang.",
+    d_plant:"Di samping PLTN, 1 tahun",d_banana:"Satu pisang",d_brazil:"Kacang Brazil (segenggam)",
+    d_flight:"Penerbangan Jakarta–Bali",d_xray:"Rontgen dada",d_bg:"Radiasi latar alami, 1 tahun",
+    de_a:"🏭 1 tahun di sini",de_b:"🍌 1 pisang",
+    dose_h_src:"Sumber sehari-hari",dose_h_dose:"Dosis radiasi · µSv",
+    dose_punch:"🩻 Satu rontgen dada ≈ <b>1.000 tahun</b> tinggal tepat di samping PLTN.",
+    dose_note:"Dosis sehari-hari dalam mikrosievert (µSv). Satu tahun penuh di pagar PLTN ≈ satu pisang — ribuan kali di bawah radiasi latar alami yang sudah Anda hidupi.",
+    method:"<b>Apa yang saya lihat?</b> Ini adalah angka <b>model</b>, bukan umpan langsung. Nilai SIMULASI dihitung dari spesifikasi publik Akademik Lomonosov (keluaran stabil ~90%) — satu hari operasi tipikal, bukan telemetri waktu nyata. Hanya <b>Kondisi Lokasi</b> yang benar-benar langsung, diambil dari API cuaca terbuka Open-Meteo. Saat pembangkit sungguhan dibangun dan beroperasi, umpan sensor bersertifikatnya akan menggantikan model ini — tata letak halaman tetap sama.",
+    src_line:"<b>📎 Sumber —</b> spesifikasi reaktor: <a href='https://www.world-nuclear-news.org/articles/russias-floating-nuclear-power-plant-passes-one-billion-kwh' target='_blank' rel='noopener'>World Nuclear News / IAEA PRIS</a>; CO₂ &amp; batu bara: <a href='https://www.eia.gov/tools/faqs/faq.php?id=74' target='_blank' rel='noopener'>US EIA</a> &amp; <a href='https://unece.org/sites/default/files/2021-11/LCA_final.pdf' target='_blank' rel='noopener'>UNECE 2021</a>; diesel: <a href='https://www.iea.org/' target='_blank' rel='noopener'>IEA</a>; konsumsi rumah tangga: <a href='https://ember-energy.org/countries-and-regions/indonesia/' target='_blank' rel='noopener'>Ember / PLN</a>; cuaca: <a href='https://open-meteo.com/' target='_blank' rel='noopener'>Open-Meteo</a>. Atau ketuk <b>ⓘ</b> di samping angka untuk rujukan pastinya.",
+    cmp_h:"Analitik Penerapan SMR",cmp_sub:"Model interaktif penerapan reaktor modular kecil yang bisa dipilih per negara — dibangun di atas WRI Global Power Plant Database (CC BY 4.0).",cmp_loading:"Memuat analitik…",
+    win_low:"nuklir terendah",win_safe:"nuklir teraman",win_clean:"nuklir terbersih",
+    cmp_take:"Pada ketiga ukuran yang paling dikhawatirkan orang — <b>radiasi, keselamatan, dan karbon</b> — nuklir berada di ujung yang aman dan bersih. Dan angka ini sudah termasuk Chernobyl dan Fukushima.",
+    ch1:"Dosis radiasi sehari-hari (µSv, skala log)",ch2:"Kematian per TWh listrik (termasuk Chernobyl & Fukushima)",ch3:"Gas rumah kaca siklus hidup (gCO₂eq/kWh) — nuklir terendah",
+    myth_h:"Uji Pengetahuan Anda",myth_sub:"Geser ke kanan jika menurut Anda BENAR, ke kiri jika itu SALAH. Kami akan tampilkan hasil lengkap Anda, berwarna sesuai jawaban, beserta sumbernya di akhir.",
+    deck_swipe_no:"◀ SALAH",deck_swipe_yes:"BENAR ▶",deck_true:"BENAR",deck_false:"SALAH",
+    deck_correct:"Tepat!",deck_wrong:"Belum tepat —",deck_next:"Kartu berikutnya →",
+    deck_score:"Skor: <b>{c}</b> / {t}",deck_progress:"Kartu {n} dari {t}",
+    deck_done_h:"Anda menyelesaikan deck!",deck_done_p:"Anda menjawab benar <b class='big-score'>{c}/{t}</b>. Setiap jawaban di atas tertaut ke sumber publik — periksa yang Anda ragukan.",
+    deck_replay:"Main lagi",
+    eb_title:"Reaktor Modular Kecil (SMR)",eb_sub:"Ringkas, dibuat di pabrik, dan diapungkan ke tempat listrik dibutuhkan — energi bersih yang stabil, siang dan malam.",
+    how_h:"Cara Kerja PLTN",how_sub:"Gulir perlahan — setiap bagian reaktor dijelaskan saat menyala, diakhiri dengan cara penanganan limbahnya.",
+    how_done_t:"Seluruh pembangkit bekerja bersama",how_done_x:"Semua bagian menyala — ketuk komponen di bawah untuk meninjau fungsinya.",
+    foot:"Prototipe HackAtom 2026 · Setiap nilai memiliki sumber publik · Dirancang memenuhi Isu 2 infrastruktur nuklir IAEA: Pelibatan Pemangku Kepentingan (IAEA NG-G-5.1)",
+    bot_sub:"Hanya fakta terverifikasi — setiap jawaban menyertakan sumber",bot_ph:"Tanya soal keselamatan, radiasi, limbah…",
+    bot_hello:"Halo! 👋 Saya menjawab pertanyaan tentang tenaga nuklir HANYA dari sumber publik terverifikasi (IAEA, UNSCEAR, NRC, Our World in Data). Silakan bertanya apa saja.",
+    bot_fallback:"Saya belum punya sumber terverifikasi untuk itu, jadi saya tidak akan menebak — asisten ini hanya menjawab dari fakta yang sudah diperiksa. Coba tanyakan: keselamatan, Chernobyl, radiasi, limbah, tsunami, lapangan kerja, atau biaya. (Pada versi lengkap, pertanyaan tak terjawab diteruskan ke pakar BAPETEN.)"
+  },
+  ru:{
+    sim_banner:"Значения с пометкой <b>СИМУЛЯЦИЯ</b> смоделированы по публичным данным действующей плавучей станции «Академик Ломоносов» (IAEA PRIS). Значения с пометкой <b>LIVE</b> поступают из реальных открытых API прямо сейчас.",
+    hero_h1:"Атомная энергия <em>безопасна</em> — и это один из самых <em>чистых</em> источников энергии.",
+    hero_p:"Не верьте нам на слово. Каждое число на этой странице ведёт к публичному, проверяемому источнику — <a href='https://www.unscear.org/' target='_blank' rel='noopener'>UNSCEAR</a>, <a href='https://www.iaea.org/' target='_blank' rel='noopener'>МАГАТЭ</a>, <a href='https://www.nrc.gov/' target='_blank' rel='noopener'>US NRC</a>, <a href='https://ourworldindata.org/' target='_blank' rel='noopener'>Our World in Data</a>.",
+    hero_tag:"United Nuclear Innovation For Infrastructure",
+    hero_mission:"UNIFI расшифровывается как <b>U</b>nited <b>N</b>uclear <b>I</b>nnovation <b>F</b>or <b>I</b>nfrastructure. Мы собираем ясные ответы об атомной энергии со ссылками на источники в одном месте — чтобы каждое сообщество в Индонезии могло изучить факты и уверенно строить чистое энергетическое будущее страны.",
+    trust_row:"Данные: <b>МАГАТЭ</b> <span class='dot'>•</span> <b>UNSCEAR</b> <span class='dot'>•</span> <b>US NRC</b> <span class='dot'>•</span> <b>Our World in Data</b> <span class='dot'>•</span> <b>UNECE</b>",
+    nav_dash:"Панель",nav_cmp:"Цифры",nav_myth:"Мифы и факты",nav_how:"Как это работает",
+    dash_h:"Проверенные результаты ММР",
+    dash_sub:"Смоделировано по «Академику Ломоносову» (2×КЛТ-40С, 70 МВт) — единственной в мире действующей плавучей АЭС — на предполагаемой площадке в Банка-Белитунг.",
+    b_live:"live",
+    c_power:"Выходная мощность",c_ofcap:"от мощности — реакторы работают стабильно, без скачков",c_homes:"Обеспечено домов",c_homes_n:"при среднем потреблении домохозяйства Индонезии",
+    c_energy:"Энергия в сутки",c_since:"смоделировано за 24 ч при стабильной выработке",c_co2:"CO₂ не выброшен за сутки (против угля)",c_coal_n:"тонн угля не сожжено",
+    c_diesel:"Дизель, замещённый за сутки",c_diesel_n:"удалённые острова зависят от дорогого дизеля",c_weather:"Условия на площадке",
+    c_wind:"Ветер",c_wave:"Волны",c_rad:"Радиация на периметре станции",r_normal:"диапазон природного фона (0,05–0,30)",
+    r_note:"Маркер находится в пределах природного радиационного фона, который есть повсюду на Земле. Это не гипотетическая прозрачность: ЕС (EURDEP, 5 500+ станций) и Япония уже сегодня публикуют данные радиации станций в реальном времени.",
+    c_year:"Повседневная радиация, для сравнения (µЗв)",
+    c_year_n:"US NRC: проживание в радиусе 80 км от АЭС добавляет ~0,1 µЗв в год — примерно как доза от одного банана.",
+    d_plant:"Рядом со станцией, 1 год",d_banana:"Один банан",d_brazil:"Бразильские орехи (горсть)",
+    d_flight:"Перелёт Джакарта–Бали",d_xray:"Рентген грудной клетки",d_bg:"Природный фон, 1 год",
+    de_a:"🏭 1 год здесь",de_b:"🍌 1 банан",
+    dose_h_src:"Повседневный источник",dose_h_dose:"Доза радиации · µЗв",
+    dose_punch:"🩻 Один рентген грудной клетки ≈ <b>1 000 лет</b> жизни прямо рядом со станцией.",
+    dose_note:"Повседневные дозы в микрозивертах (µЗв). Целый год у ограды станции ≈ один банан — в тысячи раз меньше природного фона, в котором вы уже живёте.",
+    method:"<b>Что я вижу?</b> Это <b>смоделированные</b> значения, а не живой поток. СИМУЛИРОВАННЫЕ значения рассчитаны по опубликованным характеристикам «Академика Ломоносова» (стабильно ~90% мощности) — типичные сутки работы, а не телеметрия в реальном времени. По-настоящему живой только блок <b>Условия на площадке</b> — данные из открытого API погоды Open-Meteo. Когда реальная станция будет построена и заработает, её сертифицированный поток датчиков заменит эту модель — вёрстка страницы останется прежней.",
+    src_line:"<b>📎 Источники —</b> характеристики реактора: <a href='https://www.world-nuclear-news.org/articles/russias-floating-nuclear-power-plant-passes-one-billion-kwh' target='_blank' rel='noopener'>World Nuclear News / IAEA PRIS</a>; CO₂ и уголь: <a href='https://www.eia.gov/tools/faqs/faq.php?id=74' target='_blank' rel='noopener'>US EIA</a> и <a href='https://unece.org/sites/default/files/2021-11/LCA_final.pdf' target='_blank' rel='noopener'>UNECE 2021</a>; дизель: <a href='https://www.iea.org/' target='_blank' rel='noopener'>IEA</a>; потребление домохозяйств: <a href='https://ember-energy.org/countries-and-regions/indonesia/' target='_blank' rel='noopener'>Ember / PLN</a>; погода: <a href='https://open-meteo.com/' target='_blank' rel='noopener'>Open-Meteo</a>. Или нажмите <b>ⓘ</b> рядом с числом для точной ссылки.",
+    cmp_h:"Аналитика развёртывания ММР",cmp_sub:"Интерактивная модель развёртывания малых модульных реакторов с выбором страны — на основе WRI Global Power Plant Database (CC BY 4.0).",cmp_loading:"Загрузка аналитики…",
+    win_low:"у ядерной — минимум",win_safe:"ядерная безопаснее всех",win_clean:"ядерная чище всех",
+    cmp_take:"По всем трём показателям, которые волнуют людей больше всего — <b>радиация, безопасность и углерод</b> — ядерная энергия оказывается на безопасном, чистом конце шкалы. И эти цифры уже включают Чернобыль и Фукусиму.",
+    ch1:"Повседневные дозы радиации (µЗв, лог. шкала)",ch2:"Смертность на ТВт·ч электроэнергии (вкл. Чернобыль и Фукусиму)",ch3:"Выбросы парниковых газов за жизненный цикл (гCO₂-экв/кВт·ч) — у ядерной минимум",
+    myth_h:"Проверьте свои знания",myth_sub:"Свайп вправо, если считаете, что это ПРАВДА, влево — если ЛОЖЬ. В конце покажем ваш полный результат с цветовой разметкой и источниками.",
+    deck_swipe_no:"◀ ЛОЖЬ",deck_swipe_yes:"ПРАВДА ▶",deck_true:"ПРАВДА",deck_false:"ЛОЖЬ",
+    deck_correct:"Верно!",deck_wrong:"Не совсем —",deck_next:"Следующая карта →",
+    deck_score:"Счёт: <b>{c}</b> / {t}",deck_progress:"Карта {n} из {t}",
+    deck_done_h:"Вы прошли колоду!",deck_done_p:"Вы ответили верно на <b class='big-score'>{c}/{t}</b>. Каждый ответ выше ведёт к публичному источнику — проверьте те, в которых сомневались.",
+    deck_replay:"Играть снова",
+    eb_title:"Малый модульный реактор (ММР)",eb_sub:"Компактный, заводской сборки, доставляемый по воде туда, где нужна энергия — стабильная чистая энергия днём и ночью.",
+    how_h:"Как работает плавучая АЭС",how_sub:"Прокручивайте медленно — каждая часть реактора поясняется по мере подсветки, заканчивая обращением с отходами.",
+    how_done_t:"Вся станция работает вместе",how_done_x:"Все части подсвечены — нажмите любой компонент ниже, чтобы вспомнить его роль.",
+    foot:"Прототип HackAtom 2026 · Каждое значение имеет публичный источник · Соответствует Вопросу 2 ядерной инфраструктуры МАГАТЭ: вовлечение заинтересованных сторон (IAEA NG-G-5.1)",
+    bot_sub:"Только проверенные факты — каждый ответ со ссылкой на источник",bot_ph:"Спросите о безопасности, радиации, отходах…",
+    bot_hello:"Здравствуйте! 👋 Я отвечаю на вопросы об атомной энергии, используя ТОЛЬКО проверенные публичные источники (МАГАТЭ, UNSCEAR, NRC, Our World in Data). Спрашивайте что угодно.",
+    bot_fallback:"У меня пока нет проверенного источника для этого, поэтому я не буду гадать — этот помощник отвечает только по проверенным фактам. Спросите о: безопасности, Чернобыле, радиации, отходах, цунами, рабочих местах или стоимости."
+  }
+};
+/* ---------- theme + scroll-to-top ---------- */
+function applyTheme(dark){
+  document.body.classList.toggle('dark',dark);
+  const b=document.getElementById('themeBtn');if(b)b.textContent=dark?'☀️':'🌙';
+  try{localStorage.setItem('unifi-theme',dark?'dark':'light');}catch(e){}
+}
+function toggleTheme(){applyTheme(!document.body.classList.contains('dark'));}
+(function(){
+  let dark=false;
+  try{const s=localStorage.getItem('unifi-theme');
+    dark = s ? s==='dark' : (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);
+  }catch(e){}
+  applyTheme(dark);
+})();
+function goTop(){window.scrollTo({top:0,behavior:'smooth'});return false;}
+
+let LANG='en';
+function setLang(l){
+  LANG=l;
+  const ls=document.getElementById('langSelect');if(ls)ls.value=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(I18N[l][k])el.innerHTML=I18N[l][k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.dataset.i18nPh;if(I18N[l][k])el.placeholder=I18N[l][k];});
+  renderDeck(); renderChips();
+  if(diagramDone){ if(currentPart>=0) showPart(currentPart); else showDiagramComplete(); }
+  else renderStage(lastProgress,true);
+  if(window.__dosePaint)window.__dosePaint();
+  if(window.__renderUnifi)window.__renderUnifi(l);
+}
+
+/* =========================================================
+   TRUE / FALSE SWIPE DECK
+   truth = whether the STATEMENT (as written) is actually true.
+   Swipe right = "I think TRUE", left = "I think FALSE".
+   ========================================================= */
+const DECK=[
+  {truth:false,
+   en:{s:"A nuclear power plant can explode like an atomic bomb.",e:"Reactor fuel is uranium enriched to only ~4% — a bomb needs ~90%. A power reactor detonating like a weapon is physically impossible: wrong material, wrong physics."},
+   id:{s:"PLTN bisa meledak seperti bom atom.",e:"Bahan bakar reaktor adalah uranium dengan pengayaan hanya ~4% — bom butuh ~90%. Reaktor daya meledak seperti senjata secara fisika tidak mungkin: bahannya salah, fisikanya salah."},
+   ru:{s:"АЭС может взорваться как атомная бомба.",e:"Топливо реактора — уран с обогащением всего ~4%, а бомбе нужно ~90%. Взрыв энергетического реактора как оружия физически невозможен: не тот материал, не та физика."},
+   src:{n:"IAEA / World Nuclear Association",u:"https://world-nuclear.org/"}},
+  {truth:true,
+   en:{s:"Over its full life cycle, nuclear emits less CO₂ per kWh than solar or wind.",e:"Counting mining, building, operating and waste, the UNECE (2021) puts nuclear at 5.1–6.4 gCO₂/kWh — the lowest of every source it assessed, below wind and solar. Coal reaches up to 1,095 g."},
+   id:{s:"Sepanjang siklus hidupnya, nuklir mengeluarkan CO₂ per kWh lebih sedikit daripada surya atau angin.",e:"Menghitung penambangan, pembangunan, operasi, dan limbah, UNECE (2021) menempatkan nuklir di 5,1–6,4 gCO₂/kWh — terendah dari semua sumber yang dinilai, di bawah angin dan surya. Batu bara hingga 1.095 g."},
+   ru:{s:"За полный жизненный цикл ядерная энергия выбрасывает меньше CO₂ на кВт·ч, чем солнце или ветер.",e:"С учётом добычи, строительства, эксплуатации и отходов UNECE (2021) оценивает ядерную в 5,1–6,4 гCO₂/кВт·ч — ниже всех оценённых источников, ниже ветра и солнца. У угля — до 1 095 г."},
+   src:{n:"UNECE 2021 Life Cycle Assessment",u:"https://unece.org/sites/default/files/2021-11/LCA_final.pdf"}},
+  {truth:true,
+   en:{s:"Living a whole YEAR beside a nuclear plant gives you less radiation than eating one banana.",e:"The US NRC estimates ~0.1 µSv per year from living within 80 km of a plant — about the dose of a single banana. Your natural background dose is ~2,400 µSv/year, roughly 24,000× more."},
+   id:{s:"Tinggal SATU TAHUN di samping PLTN memberi radiasi lebih kecil daripada makan satu pisang.",e:"US NRC memperkirakan ~0,1 µSv per tahun dari tinggal dalam radius 80 km — setara dosis satu pisang. Dosis latar alami Anda ~2.400 µSv/tahun, sekitar 24.000× lebih besar."},
+   ru:{s:"Целый ГОД жизни рядом с АЭС даёт меньше радиации, чем один банан.",e:"US NRC оценивает ~0,1 µЗв в год при проживании в радиусе 80 км — примерно доза одного банана. Природный фон — ~2 400 µЗв в год, примерно в 24 000 раз больше."},
+   src:{n:"US NRC — Doses in Our Daily Lives",u:"https://www.nrc.gov/about-nrc/radiation/around-us/doses-daily-lives.html"}},
+  {truth:true,
+   en:{s:"A coal plant releases more radioactivity into its surroundings than a normally operating nuclear plant.",e:"Surprisingly true: coal ash carries concentrated natural uranium and thorium, so a coal plant emits MORE radioactivity to its surroundings than a nuclear plant running normally."},
+   id:{s:"PLTU batu bara melepaskan lebih banyak radioaktivitas ke sekitarnya daripada PLTN yang beroperasi normal.",e:"Ternyata benar: abu batu bara mengandung uranium dan thorium alami terkonsentrasi, sehingga PLTU melepaskan LEBIH BANYAK radioaktivitas ke sekitarnya daripada PLTN normal."},
+   ru:{s:"Угольная электростанция выбрасывает в окружающую среду больше радиоактивности, чем нормально работающая АЭС.",e:"Как ни удивительно — правда: угольная зола содержит концентрированные природные уран и торий, поэтому угольная ТЭС выбрасывает БОЛЬШЕ радиоактивности, чем АЭС в штатном режиме."},
+   src:{n:"Scientific American (2007)",u:"https://www.scientificamerican.com/article/coal-ash-is-more-radioactive-than-nuclear-waste/"}},
+  {truth:false,
+   en:{s:"Nuclear is the deadliest way to generate electricity.",e:"It's among the safest ever measured: 0.03 deaths per TWh — including Chernobyl AND Fukushima. Coal causes 24.6, mostly through everyday air pollution — roughly 800× more."},
+   id:{s:"Nuklir adalah cara paling mematikan untuk menghasilkan listrik.",e:"Justru salah satu yang paling aman: 0,03 kematian per TWh — termasuk Chernobyl DAN Fukushima. Batu bara 24,6, sebagian besar lewat polusi udara sehari-hari — sekitar 800× lebih banyak."},
+   ru:{s:"Ядерная энергия — самый смертоносный способ выработки электричества.",e:"Наоборот, один из самых безопасных: 0,03 смерти на ТВт·ч — включая Чернобыль И Фукусиму. У угля 24,6, в основном из-за повседневного загрязнения воздуха — примерно в 800 раз больше."},
+   src:{n:"Our World in Data — Safest sources of energy",u:"https://ourworldindata.org/safest-sources-of-energy"}},
+  {truth:false,
+   en:{s:"A floating nuclear plant would dump its spent fuel into the sea.",e:"Nothing is dumped. Fuel stays sealed inside the unit for ~10–12 years; then the entire unit is towed to a licensed facility for refuelling and waste handling under IAEA safeguards. Spent fuel never stays in Indonesia."},
+   id:{s:"PLTN terapung akan membuang bahan bakar bekasnya ke laut.",e:"Tidak ada yang dibuang. Bahan bakar tersegel di dalam unit ~10–12 tahun; lalu seluruh unit ditarik ke fasilitas berlisensi untuk isi ulang dan penanganan limbah di bawah safeguards IAEA. Bahan bakar bekas tidak pernah tinggal di Indonesia."},
+   ru:{s:"Плавучая АЭС сбрасывала бы отработавшее топливо в море.",e:"Ничего не сбрасывается. Топливо остаётся запечатанным внутри блока ~10–12 лет; затем весь блок буксируют на лицензированный объект для перегрузки и обращения с отходами под гарантиями МАГАТЭ. Отработавшее топливо не остаётся в Индонезии."},
+   src:{n:"Rosatom FPU service model / IAEA",u:"https://www.iaea.org/"}},
+  {truth:false,
+   en:{s:"A small pressurized-water reactor like the KLT-40S could suffer a Chernobyl-style explosion.",e:"Chernobyl's RBMK had a positive void coefficient and no containment. A pressurized-water reactor has NEGATIVE feedback — it slows itself down as it heats — and sits inside steel containment. That accident cannot repeat here."},
+   id:{s:"Reaktor air bertekanan kecil seperti KLT-40S bisa mengalami ledakan seperti Chernobyl.",e:"RBMK Chernobyl punya koefisien void positif dan tanpa kontainmen. Reaktor air bertekanan punya umpan balik NEGATIF — melambat sendiri saat panas — dan berada di dalam kontainmen baja. Kecelakaan itu tidak bisa terulang di sini."},
+   ru:{s:"Малый водо-водяной реактор вроде КЛТ-40С может взорваться как в Чернобыле.",e:"У чернобыльского РБМК был положительный паровой коэффициент реактивности и не было защитной оболочки. У водо-водяного реактора ОТРИЦАТЕЛЬНАЯ обратная связь — он сам замедляется при нагреве — и он находится в стальной защитной оболочке. Такая авария здесь невозможна."},
+   src:{n:"IAEA ARIS — KLT-40S design",u:"https://aris.iaea.org/"}},
+  {truth:false,
+   en:{s:"Indonesia has never operated a nuclear reactor of any kind.",e:"Indonesia has run research reactors since 1965 — three of them, on Java — produces isotopes, has a nuclear regulator (BAPETEN) working with the IAEA, and teaches nuclear disciplines at ITB, UGM and Politeknik Nuklir."},
+   id:{s:"Indonesia belum pernah mengoperasikan reaktor nuklir apa pun.",e:"Indonesia mengoperasikan reaktor riset sejak 1965 — tiga unit, di Jawa — memproduksi isotop, punya regulator nuklir (BAPETEN) yang bekerja dengan IAEA, dan mengajarkan disiplin nuklir di ITB, UGM, dan Politeknik Nuklir."},
+   ru:{s:"Индонезия никогда не эксплуатировала ни одного ядерного реактора.",e:"Индонезия эксплуатирует исследовательские реакторы с 1965 года — три из них, на Яве — производит изотопы, имеет ядерного регулятора (BAPETEN), работающего с МАГАТЭ, и преподаёт ядерные дисциплины в ITB, UGM и Политехническом ядерном институте."},
+   src:{n:"Rosatom Newsletter / BRIN",u:"https://rosatomnewsletter.com/2026/06/23/rosatom-and-indonesia-strategic-dialogue/"}},
+  {truth:false,
+   en:{s:"A tsunami is more dangerous to a floating plant than to a coastal land-based plant.",e:"A floating plant is a ship: a tsunami wave passes under it and it rides up with the water. Fukushima failed because its land-based backup cooling was drowned — a floating unit sits in its own heat sink, the ocean, and can be towed away entirely."},
+   id:{s:"Tsunami lebih berbahaya bagi pembangkit terapung daripada bagi PLTN darat di pesisir.",e:"Pembangkit terapung adalah kapal: gelombang tsunami lewat di bawahnya dan unit ikut naik bersama air. Fukushima gagal karena pendingin cadangan daratnya terendam — unit terapung berada di dalam pendinginnya sendiri, laut, dan bisa ditarik pergi sepenuhnya."},
+   ru:{s:"Цунами опаснее для плавучей станции, чем для береговой наземной АЭС.",e:"Плавучая станция — это судно: волна цунами проходит под ней, и она поднимается вместе с водой. Фукусима пострадала, потому что её наземное резервное охлаждение затопило — плавучий блок находится в собственном теплоотводе, океане, и его можно полностью отбуксировать."},
+   src:{n:"IAEA ARIS — FNPP design basis",u:"https://aris.iaea.org/"}},
+  {truth:true,
+   en:{s:"Every nuclear facility in Indonesia is inspected by both the IAEA and the national regulator BAPETEN.",e:"Indonesia is an NPT member; every facility runs under continuous IAEA safeguards inspections plus the independent national regulator BAPETEN, which licenses and inspects everything and has the final word on safety."},
+   id:{s:"Setiap fasilitas nuklir di Indonesia diinspeksi oleh IAEA dan regulator nasional BAPETEN.",e:"Indonesia anggota NPT; setiap fasilitas diawasi inspeksi safeguards IAEA yang berkelanjutan plus regulator nasional independen BAPETEN, yang memberi izin, menginspeksi semuanya, dan punya kata akhir soal keselamatan."},
+   ru:{s:"Каждый ядерный объект в Индонезии проверяют и МАГАТЭ, и национальный регулятор BAPETEN.",e:"Индонезия — участник ДНЯО; каждый объект под непрерывными инспекциями гарантий МАГАТЭ, плюс независимый национальный регулятор BAPETEN, который лицензирует и инспектирует всё и имеет решающее слово в вопросах безопасности."},
+   src:{n:"IAEA Safeguards / BAPETEN",u:"https://www.iaea.org/topics/safeguards"}}
+];
+const MYTHS_UNUSED=[
+  {en:{m:"“It will explode like Chernobyl.”",f:"Physically impossible. Chernobyl's RBMK design had a positive void coefficient and no containment. The KLT-40S is a small pressurized-water reactor — negative feedback slows the chain reaction as it heats — a design family proven over decades on icebreakers.",s:"IAEA ARIS"},
+   id:{m:"“Akan meledak seperti Chernobyl.”",f:"Secara fisika tidak mungkin. Desain RBMK Chernobyl punya koefisien void positif dan tanpa kontainmen. KLT-40S adalah reaktor air bertekanan kecil — umpan balik negatif memperlambat reaksi saat panas — keluarga desain yang teruji puluhan tahun di kapal pemecah es.",s:"IAEA ARIS"}},
+  {en:{m:"“It can blow up like a nuclear bomb.”",f:"Reactor fuel is uranium enriched to ~4% — a bomb needs ~90%. A power reactor detonating like a weapon is physically impossible, like petrol-station fuel exploding like dynamite: wrong material, wrong physics.",s:"IAEA / World Nuclear Association"},
+   id:{m:"“Bisa meledak seperti bom nuklir.”",f:"Bahan bakar reaktor adalah uranium dengan pengayaan ~4% — bom butuh ~90%. Reaktor daya meledak seperti senjata secara fisika tidak mungkin, seperti bensin di SPBU meledak seperti dinamit: bahannya salah, fisikanya salah.",s:"IAEA / World Nuclear Association"}},
+  {en:{m:"“Living near a plant means dangerous radiation.”",f:"One YEAR beside a plant ≈ the dose of ONE banana (~0.1 µSv). Your natural background dose is ~24,000× larger (2,400 µSv/yr, UNSCEAR). The dose from the plant is a rounding error on nature.",s:"US NRC · UNSCEAR"},
+   id:{m:"“Tinggal dekat PLTN berarti radiasi berbahaya.”",f:"SATU TAHUN di samping PLTN ≈ dosis SATU pisang (~0,1 µSv). Radiasi latar alami Anda ~24.000× lebih besar (2.400 µSv/tahun, UNSCEAR). Dosis dari pembangkit hanyalah pembulatan kecil dibanding alam.",s:"US NRC · UNSCEAR"}},
+  {en:{m:"“Nuclear is the deadliest form of energy.”",f:"It's among the safest ever measured: 0.03 deaths/TWh — including Chernobyl AND Fukushima. Coal: 24.6, mostly via the air pollution people breathe every day. That's ~800× more.",s:"Our World in Data"},
+   id:{m:"“Nuklir adalah energi paling mematikan.”",f:"Justru salah satu yang paling aman: 0,03 kematian/TWh — sudah termasuk Chernobyl DAN Fukushima. Batu bara: 24,6, sebagian besar lewat polusi udara yang dihirup setiap hari. Itu ~800× lebih banyak.",s:"Our World in Data"}},
+  {en:{m:"“A coal plant is at least less radioactive.”",f:"Surprisingly false: coal ash carries concentrated natural uranium and thorium, so a coal plant releases MORE radioactivity into its surroundings than a normally operating nuclear plant.",s:"Scientific American (2007)"},
+   id:{m:"“PLTU batu bara setidaknya kurang radioaktif.”",f:"Ternyata salah: abu batu bara mengandung uranium dan thorium alami terkonsentrasi, sehingga PLTU melepaskan LEBIH BANYAK radioaktivitas ke sekitarnya daripada PLTN yang beroperasi normal.",s:"Scientific American (2007)"}},
+  {en:{m:"“A tsunami will cause another Fukushima.”",f:"A floating plant is a ship: a tsunami wave passes under it and it rides up with the water instead of flooding. It doesn't depend on the land-based backup cooling that failed at Fukushima — the ocean itself is its heat sink, and the unit can be towed away entirely.",s:"IAEA ARIS (KLT-40S design basis)"},
+   id:{m:"“Tsunami akan menyebabkan Fukushima kedua.”",f:"Pembangkit terapung adalah kapal: gelombang tsunami lewat di bawahnya dan unit ikut naik bersama air, bukan terendam. Ia tidak bergantung pada pendingin cadangan darat yang gagal di Fukushima — laut itu sendiri pendinginnya, dan unit bisa ditarik pergi sepenuhnya.",s:"IAEA ARIS (basis desain KLT-40S)"}},
+  {en:{m:"“The waste will poison our seas.”",f:"Nothing is dumped at sea. Fuel stays sealed inside the unit ~10–12 years; then the entire unit is towed to a licensed facility for refueling and waste handling under IAEA safeguards — spent fuel never stays in Indonesia.",s:"Rosatom FPU model / IAEA"},
+   id:{m:"“Limbahnya akan meracuni laut kita.”",f:"Tidak ada yang dibuang ke laut. Bahan bakar tersegel di dalam unit ~10–12 tahun; lalu seluruh unit ditarik ke fasilitas berlisensi untuk isi ulang dan penanganan limbah di bawah safeguards IAEA — bahan bakar bekas tidak pernah tinggal di Indonesia.",s:"Model FPU Rosatom / IAEA"}},
+  {en:{m:"“The barge will sink or drift away in a storm.”",f:"The unit is a classed vessel, permanently moored behind protective structures and designed for extreme weather. Its reference plant has operated in Arctic conditions — ice, storms, −40°C — since 2020.",s:"IAEA PRIS / WNN (Akademik Lomonosov)"},
+   id:{m:"“Tongkangnya akan tenggelam atau hanyut saat badai.”",f:"Unit ini adalah kapal berklasifikasi, ditambat permanen di balik struktur pelindung dan dirancang untuk cuaca ekstrem. Pembangkit rujukannya telah beroperasi di kondisi Arktik — es, badai, −40°C — sejak 2020.",s:"IAEA PRIS / WNN (Akademik Lomonosov)"}},
+  {en:{m:"“Radiation will cause mutations — three-eyed fish.”",f:"At doses near plants (fractions of natural background) no such effects exist. UNSCEAR — the UN's scientific committee — has studied populations near plants for decades and finds no observable health effects at these dose levels.",s:"UNSCEAR"},
+   id:{m:"“Radiasi akan menyebabkan mutasi — ikan bermata tiga.”",f:"Pada dosis di sekitar PLTN (hanya sebagian kecil dari latar alami) efek seperti itu tidak ada. UNSCEAR — komite ilmiah PBB — telah meneliti penduduk sekitar PLTN selama puluhan tahun dan tidak menemukan efek kesehatan pada tingkat dosis ini.",s:"UNSCEAR"}},
+  {en:{m:"“Nuclear power means nuclear weapons.”",f:"Indonesia is an NPT member and every facility runs under continuous IAEA safeguards inspections plus national regulator BAPETEN. Low-enriched power fuel physically cannot make a weapon.",s:"IAEA Safeguards / BAPETEN"},
+   id:{m:"“PLTN berarti senjata nuklir.”",f:"Indonesia anggota NPT dan setiap fasilitas diawasi inspeksi safeguards IAEA yang berkelanjutan plus regulator nasional BAPETEN. Bahan bakar daya pengayaan rendah secara fisik tidak bisa dijadikan senjata.",s:"IAEA Safeguards / BAPETEN"}},
+  {en:{m:"“Indonesia has no experience with nuclear.”",f:"Indonesia has operated research reactors since 1965 — three of them, on Java — produces isotopes, has a nuclear regulator (BAPETEN) working with the IAEA, and teaches nuclear disciplines at ITB, UGM and Politek Nuklir.",s:"Rosatom Newsletter / BRIN"},
+   id:{m:"“Indonesia tidak punya pengalaman nuklir.”",f:"Indonesia mengoperasikan reaktor riset sejak 1965 — tiga unit, di Jawa — memproduksi isotop, punya regulator nuklir (BAPETEN) yang bekerja dengan IAEA, dan mengajarkan disiplin nuklir di ITB, UGM, dan Politek Nuklir.",s:"Rosatom Newsletter / BRIN"}},
+  {en:{m:"“Solar and wind are enough — we don't need nuclear.”",f:"Indonesia needs them ALL. Wind + solar are just 0.5% of its electricity today and need backup when the sun sets. Nuclear provides steady baseload day and night with the lowest lifecycle emissions — it complements renewables, not competes with them.",s:"Ember · UNECE 2021"},
+   id:{m:"“Surya dan angin cukup — kita tidak butuh nuklir.”",f:"Indonesia membutuhkan SEMUANYA. Angin + surya baru 0,5% dari listrik saat ini dan butuh cadangan saat matahari terbenam. Nuklir menyediakan beban dasar yang stabil siang-malam dengan emisi siklus hidup terendah — melengkapi energi terbarukan, bukan menyainginya.",s:"Ember · UNECE 2021"}}
+];
+let deck={i:0,score:0,answers:[]};
+function fillTpl(k,vals){let t=I18N[LANG][k]||'';for(const p in vals)t=t.replaceAll('{'+p+'}',vals[p]);return t;}
+function renderDeck(){
+  const wrap=document.getElementById('deck');if(!wrap)return;
+  const T=DECK.length;
+  const btnT=document.getElementById('btnTrue'),btnF=document.getElementById('btnFalse');
+  const score=document.getElementById('deckScore');
+  const deckRow=document.getElementById('deckRow');
+  const summary=document.getElementById('quizSummary');
+  if(deck.i>=T){
+    if(deckRow)deckRow.style.display='none';
+    if(score)score.style.display='none';
+    if(summary){summary.style.display='block';renderSummary(summary);}
+    return;
+  }
+  if(deckRow)deckRow.style.display='';
+  if(score)score.style.display='';
+  if(summary)summary.style.display='none';
+  if(btnT)btnT.style.visibility='visible';
+  if(btnF)btnF.style.visibility='visible';
+  const d=DECK[deck.i][LANG]||DECK[deck.i].en;
+  if(score)score.innerHTML=fillTpl('deck_progress',{n:deck.i+1,t:T});
+  wrap.innerHTML=`<div class="swipe-card" id="topCard">
+      <span class="stamp true" id="stTrue">${I18N[LANG].deck_true}</span>
+      <span class="stamp false" id="stFalse">${I18N[LANG].deck_false}</span>
+      <div class="statement">${d.s}</div>
+      <div class="swipe-hint"><span class="no">${I18N[LANG].deck_swipe_no}</span><span class="yes">${I18N[LANG].deck_swipe_yes}</span></div>
+    </div>`;
+  bindDrag(document.getElementById('topCard'));
+}
+function renderSummary(summary){
+  const T=DECK.length;
+  let items='';
+  deck.answers.forEach(a=>{
+    const item=DECK[a.idx];const d=item[LANG]||item.en;
+    const userLabel=a.choice?I18N[LANG].deck_true:I18N[LANG].deck_false;
+    const correctLabel=item.truth?I18N[LANG].deck_true:I18N[LANG].deck_false;
+    const yourAns=LANG==='id'?'Jawaban Anda':LANG==='ru'?'Ваш ответ':'Your answer';
+    const corrAns=LANG==='id'?'Jawaban benar':LANG==='ru'?'Верный ответ':'Correct answer';
+    const metaExtra=a.correct?'':` · ${corrAns}: <b>${correctLabel}</b>`;
+    items+=`<div class="qs-item ${a.correct?'correct':'wrong'}">
+        <div class="qs-q">${d.s}</div>
+        <div class="qs-meta">${a.correct?'✅':'❌'} ${yourAns}: <b>${userLabel}</b>${metaExtra}</div>
+        <div class="qs-fact">${d.e}</div>
+        <div class="qs-cite">📎 ${item.src.n} — <a href="${item.src.u}" target="_blank" rel="noopener">source</a></div>
+      </div>`;
+  });
+  summary.innerHTML=`<div class="qs-top">
+      <h3>${I18N[LANG].deck_done_h}</h3>
+      <div class="qs-score">${deck.score}<small> / ${T}</small></div>
+      <div class="qs-sub">${fillTpl('deck_done_p',{c:deck.score,t:T})}</div>
+    </div>
+    <div class="qs-list">${items}</div>
+    <button class="qs-replay" onclick="resetDeck()">${I18N[LANG].deck_replay}</button>`;
+}
+function resetBtns(){
+  ['btnTrue','btnFalse'].forEach(id=>{const b=document.getElementById(id);
+    if(b){b.style.transform='';b.style.boxShadow='';b.style.background='';b.style.color='';b.style.borderColor='';}});
+}
+function choose(userSaysTrue){
+  if(deck.i>=DECK.length)return;
+  const correct=(userSaysTrue===DECK[deck.i].truth);
+  deck.answers.push({idx:deck.i,choice:userSaysTrue,correct});
+  if(correct)deck.score++;
+  const card=document.getElementById('topCard');
+  const btnT=document.getElementById('btnTrue'),btnF=document.getElementById('btnFalse');
+  if(card){card.style.transition='transform .4s ease,opacity .4s ease';
+    card.style.transform=`translateX(${userSaysTrue?520:-520}px) rotate(${userSaysTrue?20:-20}deg)`;card.style.opacity='0';
+    card.style.boxShadow=`0 12px 40px ${correct?'rgba(70,208,137,.55)':'rgba(242,131,122,.55)'}`;}
+  resetBtns();
+  if(btnT)btnT.style.visibility='hidden';if(btnF)btnF.style.visibility='hidden';
+  setTimeout(()=>{deck.i++;renderDeck();},340);
+}
+function resetDeck(){deck={i:0,score:0,answers:[]};
+  const btnT=document.getElementById('btnTrue'),btnF=document.getElementById('btnFalse');
+  if(btnT)btnT.style.visibility='visible';if(btnF)btnF.style.visibility='visible';renderDeck();}
+function bindDrag(card){
+  if(!card)return;let sx=0,dx=0,drag=false;
+  const stT=document.getElementById('stTrue'),stF=document.getElementById('stFalse');
+  const btnT=document.getElementById('btnTrue'),btnF=document.getElementById('btnFalse');
+  const down=e=>{drag=true;sx=(e.touches?e.touches[0].clientX:e.clientX);card.classList.add('dragging');};
+  const move=e=>{if(!drag)return;const x=(e.touches?e.touches[0].clientX:e.clientX);dx=x-sx;
+    const gt=Math.max(0,Math.min(1,dx/90)),gf=Math.max(0,Math.min(1,-dx/90));
+    card.style.transform=`translateX(${dx}px) rotate(${dx*0.05}deg)`;
+    if(stT)stT.style.opacity=gt;
+    if(stF)stF.style.opacity=gf;
+    card.style.borderColor=gt?'var(--good)':gf?'var(--bad)':'';
+    card.style.boxShadow=gt?`0 10px 30px rgba(70,208,137,${(.2+gt*.45).toFixed(2)})`
+      :gf?`0 10px 30px rgba(242,131,122,${(.2+gf*.45).toFixed(2)})`:'';
+    if(btnT){btnT.style.transform=`scale(${1+gt*0.22})`;
+      btnT.style.boxShadow=gt?`0 0 ${(6+gt*26).toFixed(0)}px rgba(70,208,137,${(.35+gt*.55).toFixed(2)})`:'';
+      const on=gt>0.55;btnT.style.background=on?'var(--good)':'';btnT.style.color=on?'#08210f':'';btnT.style.borderColor=on?'var(--good)':'';}
+    if(btnF){btnF.style.transform=`scale(${1+gf*0.22})`;
+      btnF.style.boxShadow=gf?`0 0 ${(6+gf*26).toFixed(0)}px rgba(242,131,122,${(.35+gf*.55).toFixed(2)})`:'';
+      const on=gf>0.55;btnF.style.background=on?'var(--bad)':'';btnF.style.color=on?'#2a0f0c':'';btnF.style.borderColor=on?'var(--bad)':'';}};
+  const up=()=>{if(!drag)return;drag=false;card.classList.remove('dragging');
+    if(Math.abs(dx)>90){choose(dx>0);}else{card.style.transform='';card.style.borderColor='';card.style.boxShadow='';if(stT)stT.style.opacity=0;if(stF)stF.style.opacity=0;resetBtns();}dx=0;};
+  card.addEventListener('mousedown',down);window.addEventListener('mousemove',move);window.addEventListener('mouseup',up);
+  card.addEventListener('touchstart',down,{passive:true});card.addEventListener('touchmove',move,{passive:true});card.addEventListener('touchend',up);
+}
+document.getElementById('btnTrue').addEventListener('click',()=>choose(true));
+document.getElementById('btnFalse').addEventListener('click',()=>choose(false));
+
+/* =========================================================
+   SIMULATION — honest & calm.
+   Reactors run essentially flat; we update once per 30 s with
+   a tiny drift so the page doesn't look broken, and counters
+   progress with the clock (energy accumulates through the day).
+   ========================================================= */
+const fmt=(n,d=0)=>n.toLocaleString(LANG==='id'?'id-ID':LANG==='ru'?'ru-RU':'en-US',{maximumFractionDigits:d});
+let drift=0;
+function tick(){
+  drift=Math.max(-0.4,Math.min(0.4,drift+(Math.random()-.5)*0.1)); // slow ±0.4 MW wander
+  const p=CONFIG.capacityMWe*CONFIG.capacityFactor+drift;
+  document.getElementById('vPower').textContent=fmt(p,1);
+  document.getElementById('vCap').textContent=fmt(p/CONFIG.capacityMWe*100,1);
+  const cbEl=document.getElementById('capBar');if(cbEl)cbEl.style.width=Math.min(100,p/CONFIG.capacityMWe*100)+'%';
+  document.getElementById('vHomes').textContent=fmt(p*1000*8760/CONFIG.homeKwhYear/1000,0)+'k';
+  const mwh=CONFIG.capacityMWe*CONFIG.capacityFactor*24; // modelled full-day energy (MWh)
+  document.getElementById('vMwh').textContent=fmt(mwh,0);
+  document.getElementById('vCo2').textContent=fmt(mwh*CONFIG.coalEF,0);
+  document.getElementById('vCoal').textContent=fmt(mwh*CONFIG.coalPerKwh,0);
+  document.getElementById('vDiesel').textContent=fmt(mwh*1000*CONFIG.dieselPerKwh,0);
+  const r=0.12+drift*0.01;
+  document.getElementById('vRad').textContent=r.toFixed(3);
+  document.getElementById('radMarker').style.left=Math.min(95,(r/0.5)*100)+'%';
+}
+setInterval(tick,30000);tick();
+
+/* count-up + entrance reveal for the dashboard metrics */
+function countUp(el){
+  const raw=el.textContent.trim();
+  const hasK=/k$/i.test(raw);
+  const clean=raw.replace(/[^\d.,-]/g,'').replace(/,/g,'');
+  const target=parseFloat(clean);if(isNaN(target))return;
+  const dec=(clean.split('.')[1]||'').length;
+  const dur=1200;let t0=null;
+  el.classList.add('counting');
+  function step(ts){if(!t0)t0=ts;const p=Math.min(1,(ts-t0)/dur);const e=1-Math.pow(1-p,3);const v=target*e;
+    el.textContent=hasK?fmt(v,0)+'k':fmt(v,dec);
+    if(p<1)requestAnimationFrame(step);else{el.textContent=raw;setTimeout(()=>el.classList.remove('counting'),200);}}
+  requestAnimationFrame(step);
+}
+let dashRevealed=false;
+function revealDash(){
+  if(dashRevealed)return;dashRevealed=true;
+  const grid=document.getElementById('dashGrid');if(grid)grid.classList.add('reveal');
+  document.querySelectorAll('#dash [data-count]').forEach(countUp);
+}
+(function(){
+  const dashSec=document.getElementById('dash');
+  if('IntersectionObserver' in window && dashSec){
+    const io=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting){revealDash();io.disconnect();}});},{threshold:.2});
+    io.observe(dashSec);
+  }else revealDash();
+})();
+
+/* rotating spotlight through the dose comparison rows + live comparison panel (click to hold) */
+(function(){
+  const rows=Array.from(document.querySelectorAll('#doseList .dose-row'));
+  const focus=document.getElementById('doseFocus');
+  if(rows.length<2)return;
+  let i=-1,timer=null,resumeT=null;
+  function paint(){
+    const r=rows[i];if(!focus||!r)return;
+    focus.querySelector('.df-ico').textContent=r.querySelector('.d-ico').textContent;
+    focus.querySelector('.df-txt').innerHTML=(LANG==='id'?r.dataset.cmpId:LANG==='ru'?r.dataset.cmpRu:r.dataset.cmpEn)||r.dataset.cmpEn||'';
+    focus.classList.remove('flash');void focus.offsetWidth;focus.classList.add('flash');
+  }
+  function select(idx){i=idx;rows.forEach((r,k)=>r.classList.toggle('active',k===i));paint();}
+  function step(){select((i+1)%rows.length);}
+  function play(){if(!timer)timer=setInterval(step,4500);}
+  function pause(){clearInterval(timer);timer=null;}
+  rows.forEach((r,idx)=>r.addEventListener('click',()=>{
+    pause();select(idx);
+    clearTimeout(resumeT);resumeT=setTimeout(play,8000);   // resume auto-rotation after 8s
+  }));
+  window.__dosePaint=paint;   // let language toggle refresh the panel text
+  step();play();
+})();
+
+/* live weather (real API, graceful fallback) */
+async function loadWeather(){
+  try{
+    const w=await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${CONFIG.site.lat}&longitude=${CONFIG.site.lon}&current=temperature_2m,wind_speed_10m`)).json();
+    document.getElementById('vTemp').textContent=Math.round(w.current.temperature_2m);
+    document.getElementById('vWind').textContent=Math.round(w.current.wind_speed_10m);
+  }catch(e){document.getElementById('vTemp').textContent='29';document.getElementById('vWind').textContent='12';}
+  try{
+    const m=await (await fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${CONFIG.site.lat}&longitude=${CONFIG.site.lon}&current=wave_height`)).json();
+    document.getElementById('vWave').textContent=m.current.wave_height.toFixed(1);
+  }catch(e){document.getElementById('vWave').textContent='0.6';}
+}
+loadWeather();setInterval(loadWeather,10*60*1000);
+
+/* =========================================================
+   CHARTS (static, verified data)
+   ========================================================= */
+Chart.defaults.color='#7f97a8';Chart.defaults.borderColor='rgba(127,151,168,.22)';
+Chart.defaults.font.family="'Inter','Segoe UI',sans-serif";
+const H={indexAxis:'y',responsive:true,borderRadius:5,plugins:{legend:{display:false}},
+  animation:{duration:1200,easing:'easeOutQuart'}};
+let chartsBuilt=false;
+function buildCharts(){
+  if(chartsBuilt)return;chartsBuilt=true;
+  if(typeof Chart==='undefined'||!document.getElementById('doseChart'))return; // replaced by UNIFI Stats model
+  const grid=document.getElementById('cmpGrid');if(grid)grid.classList.add('reveal');
+  new Chart(doseChart,{type:'bar',data:{
+    labels:['1 yr beside NPP','Banana','Dental X-ray','Jakarta–Bali flight','Chest X-ray','Yearly natural background','Chest CT scan'],
+    datasets:[{data:[0.1,0.1,5,5,100,2400,7000],
+      backgroundColor:['#15803d','#b98226','#0369a1','#0369a1','#0369a1','#5b7288','#b91c1c']}]},
+    options:{...H,scales:{x:{type:'logarithmic',title:{display:true,text:'µSv (log)'}}}}});
+  new Chart(deathChart,{type:'bar',data:{
+    labels:['Coal','Oil','Gas','Hydro','Wind','Nuclear','Solar'],
+    datasets:[{data:[24.6,18.4,2.8,1.3,0.04,0.03,0.02],
+      backgroundColor:['#b91c1c','#c2650f','#b98226','#0369a1','#15803d','#0e7490','#15803d']}]},
+    options:{...H,scales:{x:{type:'logarithmic',title:{display:true,text:'deaths/TWh (log)'}}}}});
+  new Chart(co2Chart,{type:'bar',data:{
+    labels:['Coal (up to)','Gas CCGT','Hydro (up to)','Solar PV (up to)','Wind','Nuclear'],
+    datasets:[{data:[1095,513,147,83,23,6.4],
+      backgroundColor:['#b91c1c','#c2650f','#0369a1','#b98226','#15803d','#0e7490']}]},
+    options:{...H,scales:{x:{title:{display:true,text:'gCO₂eq/kWh (UNECE 2021)'}}}}});
+}
+(function(){
+  const sec=document.getElementById('compare');
+  if('IntersectionObserver' in window && sec){
+    const io=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting){buildCharts();io.disconnect();}});},{threshold:.15});
+    io.observe(sec);
+  }else buildCharts();
+})();
+
+/* =========================================================
+   SOURCE POPOVERS
+   ========================================================= */
+const pop=document.getElementById('srcPop');
+document.querySelectorAll('.src').forEach(el=>{
+  el.textContent='ⓘ';
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    const s=SOURCES[el.dataset.src];if(!s)return;
+    pop.innerHTML=`<b>📎 ${s.n}</b><a href="${s.u}" target="_blank" rel="noopener">${s.u}</a>`;
+    pop.style.display='block';
+    const r=el.getBoundingClientRect();
+    pop.style.left=Math.min(window.innerWidth-300,Math.max(8,r.left-40))+'px';
+    pop.style.top=(r.bottom+8)+'px';
+  });
+});
+document.addEventListener('click',()=>pop.style.display='none');
+
+/* =========================================================
+   SCROLL-DRIVEN ANIMATION
+   (placeholder visuals — will be rebuilt from the team's
+   reference document; the scrub mechanism stays the same)
+   ========================================================= */
+const PARTS=['cContain','cVessel','cCore','cPress','cCoolant','cSteam','cTurb','cGen','cGrid','cWaste'];
+const STAGES={
+  en:[
+    {t:"Containment structure",x:"A sealed steel-and-concrete shell around the whole reactor. It is the last physical barrier: if anything ever escaped the vessel, it would be trapped here — keeping radioactivity away from people and the sea."},
+    {t:"Reactor vessel",x:"A thick steel pressure vessel holding the core and the pressurised water around it. Built for high pressure and temperature, it is the primary barrier that seals the nuclear fuel inside."},
+    {t:"Reactor core",x:"The bundle of fuel where energy is made. Uranium atoms split (fission) and release heat. In a pressurised-water reactor the reaction is self-limiting — as the water heats, the reaction naturally slows down."},
+    {t:"Pressuriser",x:"Keeps the primary water under high pressure so it stays liquid at ~300°C instead of boiling. Steady pressure keeps the cooling of the core stable and fully controlled."},
+    {t:"Coolant circulation",x:"Pressurised water — the primary loop — flows down the sides, up through the hot core, and back, carrying heat to the steam generators. This water never leaves its sealed loop."},
+    {t:"Steam generator",x:"A heat exchanger where the hot primary water boils a completely separate second loop into steam. The two waters never mix, so nothing that touched the core reaches the turbine or the sea."},
+    {t:"Turbine",x:"The clean steam rushes through and spins the turbine blades — the same principle as a coal plant, but with no burning, no smoke, no ash and no CO₂."},
+    {t:"Generator",x:"The spinning turbine drives the generator, converting motion into electricity — up to 70 MW of steady power, day and night, independent of the weather."},
+    {t:"Power to the grid",x:"Electricity travels ashore through an undersea cable — enough for roughly 460,000 homes — replacing the costly diesel that many remote Indonesian islands burn today."},
+    {t:"Waste management",x:"Spent fuel stays sealed inside the unit for ~10–12 years. Then the whole floating unit is towed to a licensed facility where refuelling and waste handling happen under IAEA safeguards. Nothing is dumped at sea, and spent fuel never stays in Indonesia."}
+  ],
+  id:[
+    {t:"Struktur kontainmen",x:"Cangkang baja-beton tertutup di sekeliling seluruh reaktor. Inilah penghalang fisik terakhir: jika ada yang lolos dari bejana, ia terperangkap di sini — menjauhkan radioaktivitas dari manusia dan laut."},
+    {t:"Bejana reaktor",x:"Bejana tekan baja tebal yang menampung teras dan air bertekanan di sekelilingnya. Dibuat untuk tekanan dan suhu tinggi, inilah penghalang utama yang menyegel bahan bakar nuklir di dalamnya."},
+    {t:"Teras reaktor",x:"Kumpulan bahan bakar tempat energi dihasilkan. Atom uranium membelah (fisi) dan melepaskan panas. Pada reaktor air bertekanan reaksinya membatasi diri — saat air memanas, reaksi melambat dengan sendirinya."},
+    {t:"Pressuriser",x:"Menjaga air primer tetap bertekanan tinggi agar tetap cair pada ~300°C dan tidak mendidih. Tekanan yang stabil menjaga pendinginan teras tetap stabil dan terkendali penuh."},
+    {t:"Sirkulasi pendingin",x:"Air bertekanan — loop primer — mengalir turun di sisi, naik melewati teras panas, lalu kembali, membawa panas ke steam generator. Air ini tidak pernah keluar dari loop tersegelnya."},
+    {t:"Steam generator",x:"Penukar panas tempat air primer panas mendidihkan loop kedua yang benar-benar terpisah menjadi uap. Kedua air tidak pernah bercampur, jadi tidak ada yang menyentuh teras mencapai turbin atau laut."},
+    {t:"Turbin",x:"Uap bersih menderu dan memutar bilah turbin — prinsip yang sama dengan PLTU batu bara, tetapi tanpa pembakaran, tanpa asap, tanpa abu, dan tanpa CO₂."},
+    {t:"Generator",x:"Turbin yang berputar menggerakkan generator, mengubah gerak menjadi listrik — hingga 70 MW daya stabil, siang dan malam, tak bergantung cuaca."},
+    {t:"Listrik ke jaringan",x:"Listrik mengalir ke darat lewat kabel bawah laut — cukup untuk sekitar 460.000 rumah — menggantikan diesel mahal yang masih dibakar banyak pulau terpencil Indonesia."},
+    {t:"Pengelolaan limbah",x:"Bahan bakar bekas tetap tersegel di dalam unit ~10–12 tahun. Lalu seluruh unit terapung ditarik ke fasilitas berlisensi tempat isi ulang dan penanganan limbah dilakukan di bawah safeguards IAEA. Tidak ada yang dibuang ke laut, dan bahan bakar bekas tidak pernah tinggal di Indonesia."}
+  ],
+  ru:[
+    {t:"Защитная оболочка",x:"Герметичная стально-бетонная оболочка вокруг всего реактора. Это последний физический барьер: если что-то выйдет из корпуса, оно будет удержано здесь — вдали от людей и моря."},
+    {t:"Корпус реактора",x:"Толстостенный стальной сосуд под давлением, где находятся активная зона и вода вокруг неё. Рассчитан на высокое давление и температуру — главный барьер, запечатывающий топливо."},
+    {t:"Активная зона",x:"Пучок топлива, где рождается энергия. Ядра урана делятся и выделяют тепло. В реакторе с водой под давлением реакция самоограничивается: чем горячее вода, тем медленнее реакция."},
+    {t:"Компенсатор давления",x:"Держит воду первого контура под высоким давлением, чтобы она оставалась жидкой при ~300 °C и не кипела. Стабильное давление обеспечивает устойчивое охлаждение активной зоны."},
+    {t:"Циркуляция теплоносителя",x:"Вода под давлением — первый контур — опускается по бокам, поднимается через горячую активную зону и возвращается, перенося тепло к парогенераторам. Эта вода никогда не покидает свой герметичный контур."},
+    {t:"Парогенератор",x:"Теплообменник, где горячая вода первого контура превращает в пар полностью отдельный второй контур. Две воды не смешиваются, поэтому ничто, касавшееся активной зоны, не доходит до турбины или моря."},
+    {t:"Турбина",x:"Чистый пар устремляется сквозь турбину и вращает её лопатки — тот же принцип, что и на угольной ТЭС, но без горения, дыма, золы и CO₂."},
+    {t:"Генератор",x:"Вращающаяся турбина приводит генератор, превращая движение в электричество — до 70 МВт стабильной мощности, днём и ночью, независимо от погоды."},
+    {t:"Электричество в сеть",x:"Электричество идёт на берег по подводному кабелю — этого хватает примерно на 460 000 домов — замещая дорогой дизель, который сегодня жгут многие удалённые острова Индонезии."},
+    {t:"Обращение с отходами",x:"Отработавшее топливо остаётся запечатанным внутри блока ~10–12 лет. Затем весь плавучий блок буксируют на лицензированный объект, где перегрузку и обращение с отходами ведут под гарантиями МАГАТЭ. Ничего не сбрасывается в море, и отработавшее топливо не остаётся в Индонезии."}
+  ]
+};
+const scrolly=document.getElementById('scrolly');
+const NST=PARTS.length;
+let lastProgress=0,dotsBuilt=false;
+function partWord(){return LANG==='id'?'BAGIAN ':LANG==='ru'?'ЧАСТЬ ':'PART ';}
+function renderStage(prog,force){
+  const stage=Math.min(NST-1,Math.floor(prog*NST));
+  PARTS.forEach((id,i)=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.classList.toggle('dim',i!==stage);
+    el.classList.toggle('glow',i===stage);
+  });
+  const t=Date.now()/1000;
+  const cg=document.getElementById('coreGlow');if(cg)cg.setAttribute('r',(6+Math.sin(t*3)*1.4).toFixed(2));
+  const bl=document.getElementById('blades');if(bl&&stage>=6)bl.setAttribute('transform',`rotate(${(t*220)%360})`);
+  const sp=document.getElementById('steamPipe');if(sp&&stage>=5)sp.setAttribute('stroke-dashoffset',(-(t*24)%17).toFixed(1));
+  const cb=document.getElementById('cable');if(cb&&stage>=8)cb.setAttribute('stroke-dashoffset',(-(t*30)%19).toFixed(1));
+  const tl=document.getElementById('towLine');if(tl&&stage>=9)tl.setAttribute('stroke-dashoffset',(-(t*18)%12).toFixed(1));
+  const s=(STAGES[LANG]||STAGES.en)[stage];
+  const kick=document.getElementById('stageKicker');
+  const kt=partWord()+(stage+1)+' / '+NST;
+  if(force||stageTitle.textContent!==s.t){stageTitle.textContent=s.t;stageText.textContent=s.x;if(kick)kick.textContent=kt;}
+  const dots=document.getElementById('dots');
+  if(dots&&!dotsBuilt){dots.innerHTML='';for(let i=0;i<NST;i++)dots.appendChild(document.createElement('i'));dotsBuilt=true;}
+  document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i===stage));
+  lastProgress=prog;
+}
+let diagramDone=false,currentPart=-1;
+const pulseTimer=setInterval(()=>{if(!diagramDone)renderStage(lastProgress);},80);
+/* every part fully lit, none dimmed */
+function allBright(){PARTS.forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('dim');el.classList.remove('glow');}});}
+/* focus one part without dimming the others (used by the buttons) */
+function showPart(idx){
+  currentPart=idx;
+  PARTS.forEach((id,i)=>{const el=document.getElementById(id);if(el){el.classList.remove('dim');el.classList.toggle('glow',i===idx);}});
+  const s=(STAGES[LANG]||STAGES.en)[idx];
+  stageTitle.textContent=s.t;stageText.textContent=s.x;
+  const kick=document.getElementById('stageKicker');if(kick)kick.textContent=partWord()+(idx+1)+' / '+NST;
+  document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i===idx));
+  document.querySelectorAll('#partNav button').forEach((b,i)=>b.classList.toggle('on',i===idx));
+}
+function buildPartNav(){
+  const nav=document.getElementById('partNav');if(!nav)return;
+  nav.innerHTML='';
+  (STAGES[LANG]||STAGES.en).forEach((s,idx)=>{
+    const b=document.createElement('button');b.textContent=s.t;b.onclick=()=>showPart(idx);
+    if(idx===currentPart)b.classList.add('on');
+    nav.appendChild(b);
+  });
+  nav.classList.add('show');
+}
+/* end state: whole plant lit equally + a summary caption + clickable part buttons */
+function showDiagramComplete(){
+  currentPart=-1;
+  allBright();
+  stageTitle.textContent=I18N[LANG].how_done_t;
+  stageText.textContent=I18N[LANG].how_done_x;
+  const kick=document.getElementById('stageKicker');if(kick)kick.textContent=(LANG==='id'?'PEMBANGKIT LENGKAP':LANG==='ru'?'ВЕСЬ ЭНЕРГОБЛОК':'COMPLETE PLANT');
+  document.querySelectorAll('#dots i').forEach(d=>d.classList.add('on'));
+  buildPartNav();
+}
+function collapseDiagram(){
+  if(diagramDone)return;
+  diagramDone=true;
+  clearInterval(pulseTimer);
+  showDiagramComplete();
+  const sticky=scrolly.querySelector('.sticky');
+  if(sticky){
+    const h=sticky.getBoundingClientRect().height;
+    scrolly.style.transition='height .5s ease';
+    scrolly.style.height=h+'px';
+    sticky.style.position='relative';
+    sticky.style.top='auto';
+  }
+  window.removeEventListener('scroll',onScroll,{passive:true});
+}
+function onScroll(){
+  if(diagramDone)return;
+  const r=scrolly.getBoundingClientRect();
+  const total=r.height-window.innerHeight;
+  const prog=Math.min(1,Math.max(0,-r.top/total));
+  renderStage(prog);
+  if(prog>=1)collapseDiagram();
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+/* =========================================================
+   CHATBOT — grounded KB, human-paced replies
+   ========================================================= */
+const KB=[
+  {k:["chernobyl","explode","meledak","ledak","explosion"],
+   en:"No — a Chernobyl-type accident is physically impossible here. Chernobyl's RBMK reactor had a design flaw (positive void coefficient) and no containment building. The KLT-40S is a small pressurized-water reactor with NEGATIVE feedback: if it overheats, the chain reaction slows itself down. This design family has run safely on icebreakers for over 60 years.",
+   id:"Tidak — kecelakaan tipe Chernobyl secara fisika tidak mungkin di sini. Reaktor RBMK Chernobyl punya cacat desain (koefisien void positif) dan tanpa gedung kontainmen. KLT-40S adalah reaktor air bertekanan kecil dengan umpan balik NEGATIF: jika terlalu panas, reaksi berantai melambat sendiri. Keluarga desain ini telah beroperasi aman di kapal pemecah es lebih dari 60 tahun.",
+   s:"IAEA ARIS — KLT-40S design description",u:"https://aris.iaea.org/"},
+  {k:["radiation","radiasi","dose","dosis","sievert","banana","pisang"],
+   en:"Living within 80 km of a nuclear plant adds about 0.1 µSv per YEAR — the same dose as eating one banana. Your natural background dose is ~2,400 µSv/year, i.e. 24,000× more. The EU and Japan already publish plant radiation data live, and our dashboard previews the same transparency.",
+   id:"Tinggal dalam radius 80 km dari PLTN menambah sekitar 0,1 µSv per TAHUN — setara dosis makan satu pisang. Dosis latar alami Anda ~2.400 µSv/tahun, alias 24.000× lebih besar. Uni Eropa dan Jepang sudah memublikasikan data radiasi pembangkit secara langsung, dan dasbor kami menampilkan transparansi yang sama.",
+   s:"US NRC Doses in Daily Lives · UNSCEAR 2008",u:"https://www.nrc.gov/about-nrc/radiation/around-us/doses-daily-lives.html"},
+  {k:["waste","limbah","sampah","spent fuel","bahan bakar bekas"],
+   en:"Nothing is dumped in Indonesia or at sea. The fuel stays sealed inside the floating unit for ~10–12 years. Then the ENTIRE unit is towed to a licensed facility, where refueling and waste management happen under IAEA safeguards. Indonesia never hosts the spent fuel.",
+   id:"Tidak ada yang dibuang di Indonesia atau ke laut. Bahan bakar tetap tersegel di dalam unit terapung ~10–12 tahun. Kemudian SELURUH unit ditarik ke fasilitas berlisensi, tempat pengisian ulang dan pengelolaan limbah dilakukan di bawah safeguards IAEA. Indonesia tidak pernah menyimpan bahan bakar bekas.",
+   s:"Rosatom FPU service model / IAEA",u:"https://www.iaea.org/"},
+  {k:["tsunami","earthquake","gempa","fukushima","flood","banjir","storm","badai"],
+   en:"A floating plant is a ship: a tsunami wave passes UNDER it and it rides up with the water instead of being flooded. Fukushima failed because land-based backup cooling was drowned; a floating unit sits in its heat sink — the ocean — and can be towed away from danger entirely. Its reference plant has survived Arctic storms since 2020.",
+   id:"Pembangkit terapung adalah kapal: gelombang tsunami lewat DI BAWAHNYA dan unit ikut naik bersama air, bukan terendam. Fukushima gagal karena pendingin cadangan di darat terendam; unit terapung berada di dalam pendinginnya sendiri — laut — dan bisa ditarik menjauh dari bahaya sepenuhnya. Pembangkit rujukannya telah bertahan dari badai Arktik sejak 2020.",
+   s:"IAEA ARIS — KLT-40S / FNPP design basis",u:"https://aris.iaea.org/"},
+  {k:["safe","aman","safety","keselamatan","deaths","kematian","dangerous","berbahaya"],
+   en:"Measured over all history — including Chernobyl and Fukushima — nuclear causes 0.03 deaths per TWh of electricity. Coal causes 24.6 (about 800× more), mostly through air pollution people breathe every day. Statistically, nuclear is as safe as wind and solar.",
+   id:"Diukur sepanjang sejarah — termasuk Chernobyl dan Fukushima — nuklir menyebabkan 0,03 kematian per TWh listrik. Batu bara 24,6 (sekitar 800× lebih banyak), sebagian besar lewat polusi udara yang dihirup orang setiap hari. Secara statistik, nuklir sama amannya dengan angin dan surya.",
+   s:"Our World in Data — Safest sources of energy",u:"https://ourworldindata.org/safest-sources-of-energy"},
+  {k:["co2","carbon","karbon","climate","iklim","emission","emisi","clean","bersih","green","hijau"],
+   en:"Across its full life cycle (mining, building, operating, waste) nuclear emits 5.1–6.4 gCO₂/kWh — the LOWEST of all sources assessed by the UNECE, below even wind and solar. Coal emits up to 1,095 g. Indonesia's grid is still ~62% coal, so every nuclear kWh displaces real emissions.",
+   id:"Sepanjang siklus hidupnya (penambangan, pembangunan, operasi, limbah) nuklir mengeluarkan 5,1–6,4 gCO₂/kWh — TERENDAH dari semua sumber yang dinilai UNECE, bahkan di bawah angin dan surya. Batu bara hingga 1.095 g. Jaringan listrik Indonesia masih ~62% batu bara, jadi setiap kWh nuklir menggantikan emisi nyata.",
+   s:"UNECE 2021 Life Cycle Assessment · Ember",u:"https://unece.org/sites/default/files/2021-11/LCA_final.pdf"},
+  {k:["job","kerja","pekerjaan","economy","ekonomi","benefit","manfaat","local"],
+   en:"A nuclear program brings decades of skilled jobs: construction, operations, port services, monitoring, education. Indonesia already teaches nuclear disciplines at ITB, UGM and Politek Nuklir, and dozens of Indonesian students are studying nuclear fields abroad today. A plant runs 60+ years — a generational investment in the host region.",
+   id:"Program nuklir membawa lapangan kerja terampil selama puluhan tahun: konstruksi, operasi, layanan pelabuhan, pemantauan, pendidikan. Indonesia sudah mengajarkan disiplin nuklir di ITB, UGM, dan Politek Nuklir, dan puluhan mahasiswa Indonesia sedang belajar bidang nuklir di luar negeri. Pembangkit beroperasi 60+ tahun — investasi lintas generasi bagi daerah tuan rumah.",
+   s:"Rosatom Newsletter — Indonesia Strategic Dialogue (June 2026)",u:"https://rosatomnewsletter.com/2026/06/23/rosatom-and-indonesia-strategic-dialogue/"},
+  {k:["cost","biaya","harga","price","expensive","mahal","tariff","tarif"],
+   en:"A nuclear plant runs for 60+ years and its electricity price barely depends on global fuel-price swings — unlike diesel and coal, which trade at volatile prices. For remote islands now burning expensive diesel, floating nuclear replaces the costliest electricity in the country. (I can't quote a tariff — that's set by negotiation between PLN and the vendor.)",
+   id:"PLTN beroperasi 60+ tahun dan harga listriknya hampir tidak bergantung pada gejolak harga bahan bakar global — beda dengan diesel dan batu bara yang harganya fluktuatif. Untuk pulau terpencil yang kini membakar diesel mahal, PLTN terapung menggantikan listrik termahal di negeri ini. (Saya tidak bisa menyebut tarif — itu ditentukan negosiasi PLN dan vendor.)",
+   s:"Rosatom Newsletter interview — plant economics",u:"https://rosatomnewsletter.com/2026/06/23/rosatom-and-indonesia-strategic-dialogue/"},
+  {k:["weapon","senjata","bomb","bom","military","militer","proliferation"],
+   en:"Indonesia is a member of the Non-Proliferation Treaty, and every nuclear facility operates under continuous IAEA safeguards inspections, alongside the national regulator BAPETEN. Power-reactor fuel is low-enriched uranium (~4%) — it physically cannot be used to make a weapon, which needs ~90% enrichment.",
+   id:"Indonesia adalah anggota Traktat Non-Proliferasi, dan setiap fasilitas nuklir beroperasi di bawah inspeksi safeguards IAEA yang berkelanjutan, bersama regulator nasional BAPETEN. Bahan bakar reaktor daya adalah uranium pengayaan rendah (~4%) — secara fisik tidak bisa dipakai membuat senjata, yang butuh pengayaan ~90%.",
+   s:"IAEA Safeguards / BAPETEN",u:"https://www.iaea.org/topics/safeguards"},
+  {k:["who","siapa","regulator","bapeten","control","awasi","pengawas","license","izin"],
+   en:"Indonesia's independent nuclear regulator is BAPETEN — it licenses and inspects everything, and works directly with the IAEA. In April 2026, BAPETEN held workshops in Jakarta on the regulatory framework for floating plants. The regulator, not the vendor, has the final word on safety.",
+   id:"Regulator nuklir independen Indonesia adalah BAPETEN — yang memberi izin dan menginspeksi semuanya, dan bekerja langsung dengan IAEA. Pada April 2026, BAPETEN mengadakan lokakarya di Jakarta tentang kerangka regulasi PLTN terapung. Regulator, bukan vendor, yang punya kata akhir soal keselamatan.",
+   s:"BAPETEN / Atom Media (April 2026 workshop)",u:"https://atommedia.online/en/press-releases/rosatom-i-agentstvo-po-regulirovaniyu-yadernoy-energii-indonezii-obsudili-voprosy-regulirovaniya-soo/"}
+];
+const CHIPS={
+  en:["Will it explode like Chernobyl?","Is the radiation dangerous?","What about the waste?","What if a tsunami hits?","Who regulates it?"],
+  id:["Apakah bisa meledak seperti Chernobyl?","Apakah radiasinya berbahaya?","Bagaimana limbahnya?","Bagaimana jika tsunami?","Siapa yang mengawasi?"]
+};
+function renderChips(){
+  const c=document.getElementById('chatChips');c.innerHTML='';
+  (CHIPS[LANG]||CHIPS.en).forEach(q=>{const b=document.createElement('button');b.textContent=q;b.onclick=()=>{document.getElementById('chatInput').value=q;sendMsg();};c.appendChild(b);});
+}
+function addMsg(txt,who,cite){
+  const b=document.getElementById('chatBody');
+  const m=document.createElement('div');m.className='msg '+who;m.textContent=txt;
+  if(cite)appendCite(m,cite);
+  b.appendChild(m);b.scrollTop=b.scrollHeight;
+  return m;
+}
+function appendCite(m,cite){
+  const c=document.createElement('span');c.className='cite';
+  c.innerHTML=`📎 ${cite.s} — <a href="${cite.u}" target="_blank" rel="noopener">source</a>`;m.appendChild(c);
+}
+/* human pacing: typing dots, then word-by-word streaming */
+function botReply(txt,cite){
+  const b=document.getElementById('chatBody');
+  const dots=document.createElement('div');dots.className='typing';dots.innerHTML='<i></i><i></i><i></i>';
+  b.appendChild(dots);b.scrollTop=b.scrollHeight;
+  const think=900+Math.min(1800,txt.length*4);   // reading/thinking pause
+  setTimeout(()=>{
+    dots.remove();
+    const m=addMsg('','bot');
+    const words=txt.split(' ');let i=0;
+    const iv=setInterval(()=>{
+      m.textContent=words.slice(0,++i).join(' ');
+      b.scrollTop=b.scrollHeight;
+      if(i>=words.length){clearInterval(iv);if(cite)appendCite(m,cite);b.scrollTop=b.scrollHeight;}
+    },38);
+  },think);
+}
+let chatInit=false,busy=false;
+function toggleChat(){
+  const p=document.getElementById('chatPanel');p.classList.toggle('open');
+  if(!chatInit){botReply(I18N[LANG].bot_hello);renderChips();chatInit=true;}
+}
+async function sendMsg(){
+  if(busy)return;
+  const inp=document.getElementById('chatInput');const q=inp.value.trim();if(!q)return;
+  addMsg(q,'user');inp.value='';busy=true;setTimeout(()=>busy=false,1600);
+  if(CONFIG.llmEndpoint){
+    try{
+      const r=await (await fetch(CONFIG.llmEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,lang:LANG})})).json();
+      botReply(r.answer,r.source);return;
+    }catch(e){/* fall back to local KB */}
+  }
+  const ql=q.toLowerCase();
+  let best=null,score=0;
+  KB.forEach(e=>{const s=e.k.filter(k=>ql.includes(k)).length;if(s>score){score=s;best=e;}});
+  if(best)botReply(best[LANG],{s:best.s,u:best.u});
+  else botReply(I18N[LANG].bot_fallback);
+}
+
+/* init */
+renderDeck();renderChips();
+
+/* ---------- subtle scroll reveal (fade + rise as sections enter) ---------- */
+(function(){
+  const sel=['#myths > h2','#myths > .sub','.deck-wrap','#dash > h2','#dash > .sub',
+    '.gauge-wrap','.method-note','#compare > h2','#compare > .sub','.takeaway',
+    '#how > h2','#how > .sub','footer'];
+  const els=[];
+  sel.forEach(s=>document.querySelectorAll(s).forEach(e=>els.push(e)));
+  if(!('IntersectionObserver' in window)){return;}
+  els.forEach((e,i)=>{e.classList.add('sr');e.style.transitionDelay=(Math.min(i%3,2)*0.08)+'s';});
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(x=>{if(x.isIntersecting){x.target.classList.add('shown');io.unobserve(x.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(e=>io.observe(e));
+})();
+
+/* ---------- scroll-linked motion for the UNIFI logo + name ---------- */
+(function(){
+  const brand=document.querySelector('.hero-brand');
+  const h1=document.querySelector('.hero h1');
+  const p=document.querySelector('.hero p');
+  if(!brand)return;
+  let ticking=false;
+  function upd(){
+    ticking=false;
+    const y=window.scrollY||0;
+    const t=Math.min(1,y/Math.max(1,window.innerHeight*0.7)); // 0→1 through first screen
+    const ease=t*t;
+    brand.style.transform=`translateY(${y*0.28}px) scale(${1-ease*0.14})`;
+    brand.style.opacity=(1-ease*0.9).toFixed(3);
+    if(h1){h1.style.transform=`translateY(${y*0.12}px)`;h1.style.opacity=(1-ease*0.75).toFixed(3);}
+    if(p){p.style.transform=`translateY(${y*0.08}px)`;p.style.opacity=(1-ease*0.85).toFixed(3);}
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+  upd();
+})();
+</script>
+
+<!-- ===== UNIFI Stats model — fully self-hosted (no CDN): vendored React/Recharts + static Tailwind ===== -->
+<link rel="stylesheet" href="unifi-tailwind.css">
+<script defer src="vendor-react.js"></script>
+<script defer src="vendor-react-dom.js"></script>
+<script defer src="vendor-prop-types.js"></script>
+<script defer src="vendor-recharts.js"></script>
+<script defer src="unifi-i18n.js"></script>
+<script defer src="unifi-data.js"></script>
+<script defer src="unifi-stats.js"></script>
+<script defer src="unifi-mount.js"></script>
+
+<script src="facts.js"></script>
+<script src="smr-chatbot.js"></script>
+<script>
+SMRChatbot.mount({
+  knowledgeBase: (window.SMR_KB || null),   // embedded KB → works from file:// and GitHub Pages, no server needed
+  kbUrl:"facts.json",                        // fallback if the embed is missing
+  target:document.body,language:"auto",
+  title:"UNIFI Assistant",
+  subtitle:"Grounded answers · public sources",
+  welcome:"Hi! ⚛️ I'm the UNIFI assistant. Ask me anything about the floating SMR — safety, radiation, waste, jobs or the dashboard numbers. Every answer cites a public source.",
+  context:{model:"Akademik Lomonosov",reactor:"2 × KLT-40S",capacityMWe:70,capacityFactor:0.90}
+});
+</script>
+
+<!-- unifi build marker --></body>
+</html>

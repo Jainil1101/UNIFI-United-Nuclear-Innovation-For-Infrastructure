@@ -1,0 +1,10 @@
+IMPORTANT — one file is missing from this zip on purpose.
+
+Put the page file "trust_dashboard_integrated.html" (shared to you alongside this zip)
+into THIS folder, and rename it to:  index.html
+
+Then upload every file in this folder to a GitHub repo (root) and enable Pages
+(Settings -> Pages -> Deploy from branch -> main / root).
+
+Everything else (React, Recharts, Tailwind, data, chatbot) is already vendored here —
+no build step, no internet needed.
