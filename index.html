@@ -1627,8 +1627,8 @@ renderDeck();renderChips();
 /* ---------- subtle scroll reveal (fade + rise as sections enter) ---------- */
 (function(){
   const sel=['#myths > h2','#myths > .sub','.deck-wrap','#dash > h2','#dash > .sub',
-    '.gauge-wrap','.method-note','#compare > h2','#compare > .sub','.takeaway',
-    '#how > h2','#how > .sub','footer'];
+  '.gauge-wrap','.method-note','#compare > h2','#compare > .sub','.takeaway',
+  '#how > h2','#how > .sub'];
   const els=[];
   sel.forEach(s=>document.querySelectorAll(s).forEach(e=>els.push(e)));
   if(!('IntersectionObserver' in window)){return;}
