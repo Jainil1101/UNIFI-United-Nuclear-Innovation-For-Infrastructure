@@ -72,6 +72,15 @@
   .sim-banner{background:#fff7e6;border-bottom:1px solid #f0dcb0;text-align:center;font-size:.78rem;
     padding:.4rem .8rem;color:#8a5a13}
 
+  footer{padding:2.2rem 1rem}
+  .foot-brand{display:flex;align-items:center;justify-content:center;gap:.55rem;flex-wrap:wrap;margin-bottom:.5rem}
+  .foot-name{font-family:var(--font-head);font-weight:700;font-size:1.25rem;letter-spacing:4px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .foot-full{font-family:var(--font-head);font-weight:700;font-size:1.15rem;color:var(--txt)}
+  .foot-tag{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem}
+  .foot-rule{border:none;border-top:1px solid var(--line);max-width:1100px;margin:0 auto 1.2rem}
+  .foot-copy{font-size:.85rem;color:var(--muted);max-width:900px;margin:0 auto;line-height:1.6}
+
   /* ---------- layout ---------- */
   section{max-width:1200px;margin:0 auto;padding:2.4rem 1rem}
   h2{font-size:1.5rem;margin-bottom:.3rem}
@@ -392,8 +401,8 @@
   /* ---------- scroll animation ---------- */
   .scrolly{position:relative;background:linear-gradient(180deg,var(--bg),var(--panel2))}
   .scrolly .sticky{position:sticky;top:52px;height:calc(100vh - 60px);display:flex;flex-direction:column;
-    align-items:center;justify-content:center;overflow:hidden;padding:0 1rem}
-  .stage-caption{text-align:center;max-width:640px;padding:0 1rem;min-height:120px}
+     align-items:center;justify-content:flex-start;overflow:hidden;padding:1.2rem 1rem 0}
+  .stage-caption{text-align:center;max-width:640px;padding:0 1rem;margin-top:1.6rem;min-height:170px}
   .stage-caption .kicker{font-size:.68rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--batik)}
   .stage-caption h3{color:var(--accent2);font-size:1.25rem;margin:.2rem 0 .3rem}
   .stage-caption p{color:var(--muted);font-size:.92rem}
@@ -406,7 +415,8 @@
     border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;transition:.2s}
   .part-nav button:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
   .part-nav button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  #fnppSvg{width:min(94vw,560px);height:auto;filter:drop-shadow(0 6px 18px rgba(23,50,72,.12))}
+  #fnppSvg{width:min(94vw,560px);max-height:52vh;height:auto;flex-shrink:0;
+    filter:drop-shadow(0 6px 18px rgba(23,50,72,.12))}
   #fnppSvg .part{transition:opacity .4s}
   #fnppSvg .dim{opacity:.22}
   #fnppSvg .glow{filter:drop-shadow(0 0 6px rgba(14,116,144,.9))}
@@ -820,7 +830,19 @@
 </div>
 
 <footer>
-  <span data-i18n="foot">HackAtom 2026 prototype · Every value carries a public source · Designed to fulfil IAEA nuclear infrastructure Issue 2: Stakeholder Involvement (IAEA NG-G-5.1)</span>
+  <div class="foot-brand">
+    <svg class="atom-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <g transform="rotate(0 20 20)"><ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--atom)" stroke-width="1.6"/></g>
+      <g transform="rotate(60 20 20)"><ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--accent)" stroke-width="1.6"/></g>
+      <g transform="rotate(120 20 20)"><ellipse cx="20" cy="20" rx="16" ry="6" fill="none" stroke="var(--accent2)" stroke-width="1.6"/></g>
+      <circle cx="20" cy="20" r="3.6" fill="var(--accent2)"/>
+    </svg>
+    <span class="foot-name">UNIFI</span>
+    <span class="foot-full">— United Nuclear Innovation For Infrastructure</span>
+  </div>
+  <p class="foot-tag">HackAtom 2026 prototype · Every value carries a public source</p>
+  <hr class="foot-rule">
+  <p class="foot-copy">© 2026 UNIFI · Built for HackAtom 2026. All figures link to public sources (IAEA, UNSCEAR, US NRC, UNECE, Our World in Data). Plant data © WRI Global Power Plant Database, CC BY 4.0.</p>
 </footer>
 
 <!-- ================= CHATBOT ================= -->
